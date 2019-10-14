@@ -16,6 +16,11 @@ import data_manager
 # common module
 import common
 
+ID = 0
+NAME = 1
+EMAIL = 2
+SUBSCRIBED = 3
+
 
 def start_module():
     """
@@ -25,6 +30,21 @@ def start_module():
 
     Returns:
         None
+    """
+    title = "Customer Relationship Management (CRM)"
+    list_options = ["Show table",
+                    "Add new item",
+                    "Remove a record",
+                    "Update record",
+                    "Get longest name ID",
+                    "Get e-mail subscribers"]
+    exit_message = "Exit to main menu"
+    """
+    while True:
+        ui.print_menu(title, list_options, exit_message)
+        try:
+            if choose():
+                pass
     """
 
     # your code
@@ -40,6 +60,8 @@ def show_table(table):
     Returns:
         None
     """
+
+    ui.print_table(table, ["ID", "name", "e-mail", "subscribed"])
 
     # your code
 
@@ -57,6 +79,8 @@ def add(table):
 
     # your code
 
+    ui.get_inputs(list_labels, title)
+
     return table
 
 
@@ -73,6 +97,10 @@ def remove(table, id_):
     """
 
     # your code
+    for index in range(len(table)):
+        if table[index][0] == id_:
+            table.pop(index)
+        data_manager.write_table_to_file('crm/customers.csv', table)
 
     return table
 
@@ -108,6 +136,13 @@ def get_longest_name_id(table):
             string: id of the longest name (if there are more than one, return
                 the last by alphabetical order of the names)
         """
+
+    len_of_names = [len(lines[NAME]) for lines in table]
+    longest_names = [lines[NAME] for lines in table if len(lines[NAME]) == max(len_of_names)]
+
+    for lines in table:
+        if lines[NAME] == max(longest_names):
+            return lines[ID]
 
     # your code
 
