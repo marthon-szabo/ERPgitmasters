@@ -96,9 +96,15 @@ def add(table):
 
     # your code
 
-    ui.get_inputs(list_labels, title)
-
+    id_ = common.generate_random(table)
+    list_labels = ["name", "e-mail", "subscribed"]
+    title = "Please give all new data: "
+    item = ui.get_inputs(list_labels, title)
+    item.insert(0, id_)
+    table.append(item)
     return table
+
+
 
 
 def remove(table, id_):
