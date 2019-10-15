@@ -18,6 +18,8 @@ import data_manager
 # common module
 import common
 
+items = data_manager.get_table_from_file("accounting/items.csv")
+id_for_test = "vH34Jz#&"
 
 def start_module():
     """
@@ -28,6 +30,7 @@ def start_module():
     Returns:
         None
     """
+    
     options = ["Show table",
                 "Add",
                 "Remove",
@@ -40,13 +43,13 @@ def start_module():
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
         if option == "1":
-            show_table("one")
+            show_table(items)
         elif option == "2":
-            print(option)
+            add(items)
         elif option == "3":
-            print(option)
+            remove(items, id_for_test)
         elif option == "4":
-            print(option)
+            update(items, id_for_test)
         elif option == "5":
             print(option)
         elif option == "6":
@@ -56,8 +59,6 @@ def start_module():
         else:
             raise KeyError("There is no such option.")
         
-    
-
 
 def show_table(table):
     """
@@ -69,7 +70,10 @@ def show_table(table):
     Returns:
         None
     """
-    print(table)
+    list_labels = ["id", "month", "day", "year", "type", "amount"]
+    table = data_manager.get_table_from_file("accounting/items.csv")
+    
+    #ui.print_table(acc_data, headers)
 
 
 def add(table):
@@ -82,9 +86,12 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-
-    # your code
-
+    id_ = common.generate_random(table)
+    list_labels = ["month ", "day ", "year ", "type ", "amount "]
+    title = "Please give all new data: "
+    item = ui.get_inputs(list_labels, title)
+    item.insert(0, id_)
+    table.append(item)
     return table
 
 
@@ -99,9 +106,9 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
-
-    # your code
-
+    for item in table:
+        if item[0] == id_:
+            table.remove(item)
     return table
 
 
@@ -116,9 +123,13 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
-
-    # your code
-
+    list_labels = ["month ", "day ", "year ", "type ", "amount "]
+    title = "Please give all new data: "
+    item = ui.get_inputs(list_labels, title)
+    item.insert(0, id_)
+    for element in table:
+        if element[0] == id_:
+            element[0] = item
     return table
 
 
