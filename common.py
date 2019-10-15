@@ -35,3 +35,12 @@ def generate_random(table):
     generated = ("".join(pswd))[:8]
     
     return generated
+
+
+def bubble_sort(your_list):
+    n = len(your_list)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if your_list[j] > your_list[j+1]:
+                your_list[j], your_list[j+1] = your_list[j+1], your_list[j]
+    return your_list
