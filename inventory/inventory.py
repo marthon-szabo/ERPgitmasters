@@ -1,13 +1,4 @@
 """ Inventory module
-def bubble_sort(your_list):
-    n = len(your_list)
-    for i in range(n):
-        for j in range(0, n-i-1):
-            if your_list[j] > your_list[j+1]:
-                your_list[j], your_list[j+1] = your_list[j+1], your_list[j]
-    return your_list
-
-
 Data table structure:
     * id (string): Unique and random generated identifier
         at least 2 special characters (except: ';'), 2 number, 2 lower and 2 upper case letters)
@@ -115,13 +106,14 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    remove_input = ui.get_inputs(["Enter an ID: "], "")
-    remove_id = remove_input[0]
+    remove_record = ui.get_inputs(["Enter an ID: "], "")
+    remove_id = remove_record[0]
     if remove_id in id_:
         for line in table:
             if remove_id in line:
                 table.remove(line)
                 data_manager.write_table_to_file("inventory/inventory.csv", table)
+                common.clear()
                 return table
     else:
         ui.print_error_message("Invalid ID!")
@@ -138,10 +130,20 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
+    update_record = ui.get_inputs(["Enter an ID: "], "")
+    update_id = update_record[0]
+    if update_id in id_:
+        list_labels = ["Name: ", "Manufacturer: ", "Purchase year: ", "Durability: "]
+        title = "Please give all new data: "
+        item = ui.get_inputs(list_labels, title)
+        for line in table:
+            if update_id in line:
+                line[1:] = item
+                data_manager.write_table_to_file("inventory/inventory.csv", table)
+                return table
+    else:
+        ui.print_error_message("Invalid ID!")
 
-    # your code
-
-    return table
 
 
 # special functions:
@@ -159,7 +161,6 @@ def get_available_items(table, year):
         list: list of lists (the inner list contains the whole row with their actual data types)
     """
 
-    # your code
 
 
 def get_average_durability_by_manufacturers(table):
