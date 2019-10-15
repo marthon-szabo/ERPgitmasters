@@ -20,7 +20,7 @@ ID = 0
 NAME = 1
 EMAIL = 2
 SUBSCRIBED = 3
-table = data_manager.get_table_from_file("crm/customers.csv")
+
 
 
 def start_module():
@@ -40,7 +40,8 @@ def start_module():
                     "Get longest name ID",
                     "Get e-mail subscribers"]
     exit_message = "Exit to main menu"
-
+    table = data_manager.get_table_from_file("crm/customers.csv")
+    
     while True:
         ui.print_menu(title, list_options, exit_message)
 
