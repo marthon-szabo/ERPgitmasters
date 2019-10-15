@@ -18,24 +18,37 @@ def generate_random(table):
     Returns:
         string: Random and unique string
     """
+    while True:
+        generated = ''
+        pswd = []
 
-    generated = ''
-    pswd = []
+        char = r"qwertzuiopasdfghjklyxcvbnm"
+        sym = r"[!@#$%^&*()?]"
 
-    char = r"qwertzuiopasdfghjklyxcvbnm"
-    sym = r"[!@#$%^&*()?]"
+        for i in range(2, 4):
+            pswd.append(random.choice(char))
+            pswd.append(random.choice(char.upper()))
+            pswd.append(str(random.randint(0, 9)))
+            pswd.append(random.choice(sym))
 
-    for i in range(2, 4):
-        pswd.append(random.choice(char))
-        pswd.append(random.choice(char.upper()))
-        pswd.append(str(random.randint(0, 99)))
-        pswd.append(random.choice(sym))
+        random.shuffle(pswd)
 
-    random.shuffle(pswd)
+        generated = ("".join(pswd))[:8]
+        
+        for line in table:
+            if generated == line[0]:
+                continue
+        
+        break
 
-    generated = ("".join(pswd))[:8]
-    
     return generated
+
+
+def id_finder(table):
+    id = []
+    for item in table:
+        id.append(item[0])
+    return id
 
 
 def bubble_sorting(your_list):
