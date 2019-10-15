@@ -36,7 +36,7 @@ def start_module():
     """
     common.clear()
     table = data_manager.get_table_from_file("inventory/inventory.csv")
-    id_ = common.generate_random(table)
+    id_ = common.id_finder(table)
     options = ["Show table",
                "Add",
                "Remove",
@@ -77,7 +77,7 @@ def show_table(table):
         None
     """
     common.clear()
-    title_list = ["Id", "Name", "Manufacturer", "Purchase year", "Durability"]
+    title_list = ["ID", "Name", "Manufacturer", "Purchase year", "Durability"]
     ui.print_table(table, title_list)
 
 
@@ -99,6 +99,7 @@ def add(table):
     item.insert(0, id_)
     table.append(item)
     data_manager.write_table_to_file("inventory/inventory.csv", table)
+    common.clear()
     return table
 
 
@@ -114,9 +115,16 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    # your code
-
-    return table
+    remove_input = ui.get_inputs(["Enter an ID: "], "")
+    remove_id = remove_input[0]
+    if remove_id in id_:
+        for line in table:
+            if remove_id in line:
+                table.remove(line)
+                data_manager.write_table_to_file("inventory/inventory.csv", table)
+                return table
+    else:
+        ui.print_error_message("Invalid ID!")
 
 
 def update(table, id_):
