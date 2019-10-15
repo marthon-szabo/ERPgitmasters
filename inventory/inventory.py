@@ -1,4 +1,12 @@
 """ Inventory module
+def bubble_sort(your_list):
+    n = len(your_list)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if your_list[j] > your_list[j+1]:
+                your_list[j], your_list[j+1] = your_list[j+1], your_list[j]
+    return your_list
+
 
 Data table structure:
     * id (string): Unique and random generated identifier
@@ -27,6 +35,8 @@ def start_module():
         None
     """
     common.clear()
+    table = data_manager.get_table_from_file("inventory/inventory.csv")
+    id_ = common.generate_random(table)
     options = ["Show table",
                "Add",
                "Remove",
@@ -37,7 +47,6 @@ def start_module():
         ui.print_menu("Inventory menu", options, "Go back to main menu")
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
-        table = data_manager.get_table_from_file("inventory/inventory.csv")
         if option == "1":
             show_table(table)
         elif option == "2":
@@ -83,8 +92,13 @@ def add(table):
         list: Table with a new record
     """
 
-    # your code
-
+    id_ = common.generate_random(table)
+    list_labels = ["Name: ", "Manufacturer: ", "Purchase year: ", "Durability: "]
+    title = "Please give all new data: "
+    item = ui.get_inputs(list_labels, title)
+    item.insert(0, id_)
+    table.append(item)
+    data_manager.write_table_to_file("inventory/inventory.csv", table)
     return table
 
 
