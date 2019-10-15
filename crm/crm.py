@@ -49,9 +49,9 @@ def start_module():
         if option == "1":
             show_table(table)
         elif option == "2":
-            add(table)
+            table = add(table)
         elif option == "3":
-            remove(table, id_)
+            table = remove(table, id_)
         elif option == "4":
             update(table, id_)
         elif option == "5":
