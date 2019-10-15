@@ -3,6 +3,7 @@ implement commonly used functions here
 """
 
 import random
+import os
 
 
 def generate_random(table):
@@ -44,3 +45,7 @@ def bubble_sort(your_list):
             if your_list[j] > your_list[j+1]:
                 your_list[j], your_list[j+1] = your_list[j+1], your_list[j]
     return your_list
+
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
