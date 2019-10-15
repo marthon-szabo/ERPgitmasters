@@ -27,14 +27,14 @@ def print_table(table, title_list):
     columns = []
     column_num = 0
     length = []
-    
+
     for number in range(len(title_list)):
         columns.append([])
         for row in table:
             columns[column_num].append(row[column_num])
             columns[column_num].append(title_list[column_num])
         column_num += 1
-    
+
     for item in columns:
         for k, item in enumerate(sorted(item, key=len, reverse=True)):
             if k == 0:
@@ -58,7 +58,8 @@ def print_table(table, title_list):
         print()
 
     # HEADER
-    print((start_header)
+    print(
+        (start_header)
         + (divisor_line * (sum + (padding * len(length)) + (len(separator) * len(length)) - 1))
         + (end_header))
 
@@ -68,7 +69,6 @@ def print_table(table, title_list):
         print(f"{element.center(length[i] + padding)}", end="")
         print(separator, end="")
     print()
-
 
     # Separator
     for lines in table:
@@ -81,7 +81,8 @@ def print_table(table, title_list):
         print()
 
     # FOOTER
-    print((end_header)
+    print(
+        (end_header)
         + (divisor_line * (sum + (padding * len(length)) + (len(separator) * len(length)) - 1))
         + (start_header))
 
@@ -134,7 +135,7 @@ def print_menu(title, list_options, exit_message):
     for i in range(len(list_options)):
         print("{}. {}".format(i+1, list_options[i]))
     print("0. {}".format(exit_message))
-    
+
     # your code
 
 

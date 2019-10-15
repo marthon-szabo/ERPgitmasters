@@ -51,7 +51,7 @@ def start_module():
         elif option == "4":
             update(items, id_for_test)
         elif option == "5":
-            print(option)
+            which_year_max(items)
         elif option == "6":
             print(option)
         elif option == "0":
@@ -146,8 +146,23 @@ def which_year_max(table):
     Returns:
         number
     """
+    years = []
+    profit = []
+    for item in table:
+        years.append(item[3])
+        if item[4] == "in":
+            profit.append(int("+" + item[5]))
+        elif item[4] == "out":
+            profit.append(int("-" + item[5]))
+    print(years)
+    print(profit)
+    
+    
+    
+    
+    
 
-    # your code
+    
 
 
 def avg_amount(table, year):
