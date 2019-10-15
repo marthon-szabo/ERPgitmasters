@@ -23,6 +23,19 @@ def print_table(table, title_list):
     """
 
     # your goes code
+    colums = []
+    column_num = 0
+    lenght = []
+    for number in range(len(title_list)):
+        colums.append([])
+        for row in table:
+            colums[column_num].append(row[column_num])
+        column_num += 1
+    for i in colums:
+        for k, item in enumerate(sorted(i, key=len, reverse=True)):
+            if k == 0:
+                lenght.append(len(item))
+    print(lenght)
 
 
 def print_result(result, label):
