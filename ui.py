@@ -23,19 +23,66 @@ def print_table(table, title_list):
     """
 
     # your goes code
-    colums = []
+
+    columns = []
     column_num = 0
-    lenght = []
+    length = []
+    
     for number in range(len(title_list)):
-        colums.append([])
+        columns.append([])
         for row in table:
-            colums[column_num].append(row[column_num])
+            columns[column_num].append(row[column_num])
         column_num += 1
-    for i in colums:
-        for k, item in enumerate(sorted(i, key=len, reverse=True)):
+    
+    for item in columns:
+        for k, item in enumerate(sorted(item, key=len, reverse=True)):
             if k == 0:
-                lenght.append(len(item))
-    print(lenght)
+                length.append(len(item))
+
+    start_header = "/"
+    end_header = "\\"
+    separator = "|"
+    divisor_line = "-"
+    padding = 2
+    sum = 0
+
+    for element in length:
+        sum += element
+
+    def print_separator(length):
+        print(separator, end="")
+        for i, element in enumerate(length):
+            print(f"{divisor_line * (length[i] + len(str(padding)) + 1)}", end="")
+            print(separator, end="")
+        print()
+
+    # HEADER
+    print((start_header)
+        + (divisor_line * (sum + (padding * len(length)) + (len(separator) * len(length)) - 1))
+        + (end_header))
+
+    # TITLES
+    print(separator, end="")
+    for i, element in enumerate(title_list):
+        print(f"{element.center(length[i] + padding)}", end="")
+        print(separator, end="")
+    print()
+
+
+    # Separator
+    for lines in table:
+        print_separator(length)
+
+        print(separator, end="")
+        for i, element in enumerate(lines):
+            print(f"{element.center(length[i] + padding)}", end="")
+            print(separator, end="")
+        print()
+
+    # FOOTER
+    print((end_header)
+        + (divisor_line * (sum + (padding * len(length)) + (len(separator) * len(length)) - 1))
+        + (start_header))
 
 
 def print_result(result, label):
