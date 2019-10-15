@@ -8,7 +8,6 @@ Data table structure:
     * purchase_year (number): Year of purchase
     * durability (number): Years it can be used
 """
-
 # everything you'll need is imported:
 # User interface module
 import ui
@@ -16,15 +15,6 @@ import ui
 import data_manager
 # common module
 import common
-
-
-def bubble_sort(your_list):
-    n = len(your_list)
-    for i in range(n):
-        for j in range(0, n-i-1):
-            if your_list[j] > your_list[j+1]:
-                your_list[j], your_list[j+1] = your_list[j+1], your_list[j]
-    return your_list
 
 
 def start_module():
@@ -36,33 +26,35 @@ def start_module():
     Returns:
         None
     """
-
+    common.clear()
     options = ["Show table",
                "Add",
                "Remove",
                "Update",
                "Available",
                "Average durability by manufacturers"]
-    ui.print_menu("Inventory menu", options, "Go back to main menu")
-    inputs = ui.get_inputs(["Please enter a number: "], "")
-    option = inputs[0]
-    table = data_manager.get_table_from_file("inventory.csv")
-    if option == "1":
-        show_table(table)
-    elif option == "2":
-        add(table)
-    elif option == "3":
-        remove(table, id_)
-    elif option == "4":
-        update(table, id_)
-    elif option == "5":
-        get_available_items(table, year)
-    elif option == "6":
-        get_average_durability_by_manufacturers(table)
-    elif option == "0":
-        sys.exit(0)
-    else:
-        raise KeyError("There is no such option.")
+    while True:
+        ui.print_menu("Inventory menu", options, "Go back to main menu")
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        table = data_manager.get_table_from_file("inventory/inventory.csv")
+        if option == "1":
+            show_table(table)
+        elif option == "2":
+            add(table)
+        elif option == "3":
+            remove(table, id_)
+        elif option == "4":
+            update(table, id_)
+        elif option == "5":
+            get_available_items(table, year)
+        elif option == "6":
+            get_average_durability_by_manufacturers(table)
+        elif option == "0":
+            common.clear()
+            break
+        else:
+            raise KeyError("There is no such option.")
 
 
 def show_table(table):
@@ -75,8 +67,9 @@ def show_table(table):
     Returns:
         None
     """
-
-    # your code
+    common.clear()
+    title_list = ["Id", "Name", "Manufacturer", "Purchase year", "Durability"]
+    ui.print_table(table, title_list)
 
 
 def add(table):
