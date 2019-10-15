@@ -41,7 +41,7 @@ def start_module():
                     "Get e-mail subscribers"]
     exit_message = "Exit to main menu"
     table = data_manager.get_table_from_file("crm/customers.csv")
-    
+
     while True:
         ui.print_menu(title, list_options, exit_message)
 
@@ -77,8 +77,8 @@ def show_table(table):
     Returns:
         None
     """
-
-    ui.print_table(table, ["ID", "name", "e-mail", "subscribed"])
+    title_list = ["ID", "name", "e-mail", "subscribed"]
+    ui.print_table(table, title_list)
 
     # your code
 
