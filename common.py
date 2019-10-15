@@ -19,7 +19,19 @@ def generate_random(table):
     """
 
     generated = ''
+    pswd = []
 
-    # your code
+    char = r"qwertzuiopasdfghjklyxcvbnm"
+    sym = r"[!@#$%^&*()?]"
 
+    for i in range(2, 4):
+        pswd.append(random.choice(char))
+        pswd.append(random.choice(char.upper()))
+        pswd.append(str(random.randint(0, 99)))
+        pswd.append(random.choice(sym))
+
+    random.shuffle(pswd)
+
+    generated = ("".join(pswd))[:8]
+    
     return generated
