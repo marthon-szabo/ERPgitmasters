@@ -38,7 +38,7 @@ def generate_random(table):
     return generated
 
 
-def bubble_sort(your_list):
+def bubble_sorting(your_list):
     n = len(your_list)
     for i in range(n):
         for j in range(0, n-i-1):
