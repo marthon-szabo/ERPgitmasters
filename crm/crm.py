@@ -22,6 +22,7 @@ EMAIL = 2
 SUBSCRIBED = 3
 table = data_manager.get_table_from_file("crm/customers.csv")
 
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -40,9 +41,8 @@ def start_module():
                     "Get e-mail subscribers"]
     exit_message = "Exit to main menu"
 
-    
     while True:
-        ui.print_menu("Customer Relationship Management (CRM)", list_options, "Exit to main menu")
+        ui.print_menu(title, list_options, exit_message)
 
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
@@ -62,7 +62,7 @@ def start_module():
             break
         else:
             raise KeyError("There is no such option.")
-        
+
     # your code
 
 
@@ -184,5 +184,5 @@ def get_subscribed_emails(table):
     # reconsider list format based on output by ui.py => revise f"" format
     ui.print_result(subscribers_to_print,
                     "The following people subsribed to the newsletter with the following e-mail addresses")
-    
+
     return subscribers
