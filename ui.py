@@ -32,6 +32,7 @@ def print_table(table, title_list):
         columns.append([])
         for row in table:
             columns[column_num].append(row[column_num])
+            columns[column_num].append(title_list[column_num])
         column_num += 1
     
     for item in columns:
