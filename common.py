@@ -38,6 +38,13 @@ def generate_random(table):
     return generated
 
 
+def id_finder(table):
+    id = []
+    for item in table:
+        id.append(item[0])
+    return id
+
+
 def bubble_sorting(your_list):
     n = len(your_list)
     for i in range(n):
