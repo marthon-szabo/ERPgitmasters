@@ -28,8 +28,35 @@ def start_module():
     Returns:
         None
     """
+    options = ["Show table",
+                "Add",
+                "Remove",
+                "Update",
+                "Which year has the highest profit?",
+                "What is the average (per item) profit in a given year?"]
+    while True:
+        ui.print_menu("Accounting", options, "Back to main menu")
 
-    # you code
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == "1":
+            show_table("one")
+        elif option == "2":
+            print(option)
+        elif option == "3":
+            print(option)
+        elif option == "4":
+            print(option)
+        elif option == "5":
+            print(option)
+        elif option == "6":
+            print(option)
+        elif option == "0":
+            break
+        else:
+            raise KeyError("There is no such option.")
+        
+    
 
 
 def show_table(table):
@@ -42,8 +69,7 @@ def show_table(table):
     Returns:
         None
     """
-
-    # your code
+    print(table)
 
 
 def add(table):

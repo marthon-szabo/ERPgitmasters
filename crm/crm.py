@@ -22,6 +22,7 @@ EMAIL = 2
 SUBSCRIBED = 3
 
 
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -39,13 +40,29 @@ def start_module():
                     "Get longest name ID",
                     "Get e-mail subscribers"]
     exit_message = "Exit to main menu"
-    """
+    table = data_manager.get_table_from_file("crm/customers.csv")
+    
     while True:
         ui.print_menu(title, list_options, exit_message)
-        try:
-            if choose():
-                pass
-    """
+
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == "1":
+            show_table(table)
+        elif option == "2":
+            table = add(table)
+        elif option == "3":
+            table = remove(table, id_)
+        elif option == "4":
+            update(table, id_)
+        elif option == "5":
+            get_longest_name_id(table)
+        elif option == "6":
+            get_subscribed_emails(table)
+        elif option == "0":
+            break
+        else:
+            raise KeyError("There is no such option.")
 
     # your code
 
@@ -161,10 +178,12 @@ def get_subscribed_emails(table):
 
     separator = ";"
     subscribers = [f"{line[EMAIL]}{separator}{line[NAME]}" for line in table if line[SUBSCRIBED] == "1"]
+    subscribers_to_print = {line[NAME]: line[EMAIL] for line in table if line[SUBSCRIBED] == "1"}
 
-    list_to_print = [[item] for item in subscribers]
+    # subscribers_to_print = [item for item in subscribers]
+
     # reconsider list format based on output by ui.py => revise f"" format
-    ui.print_result(list_to_print,
+    ui.print_result(subscribers_to_print,
                     "The following people subsribed to the newsletter with the following e-mail addresses")
 
     return subscribers
