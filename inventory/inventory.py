@@ -21,13 +21,13 @@ def start_module():
     Starts this module and displays its menu.
      * User can access default special features from here.
      * User can go back to main menu from here.
-
+    common.clear()
+    table = data_manager.get_table_from_file("inventory/inventory.csv")
+    existing_id = common.id_finder(table)
     Returns:
         None
     """
     common.clear()
-    table = data_manager.get_table_from_file("inventory/inventory.csv")
-    existing_id = common.id_finder(table)
     options = ["Show table",
                "Add",
                "Remove",
@@ -35,6 +35,8 @@ def start_module():
                "Available",
                "Average durability by manufacturers"]
     while True:
+        table = data_manager.get_table_from_file("inventory/inventory.csv")
+        existing_id = common.id_finder(table)
         ui.print_menu("Inventory menu", options, "Go back to main menu")
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
@@ -177,4 +179,4 @@ def get_average_durability_by_manufacturers(table):
         dict: a dictionary with this structure: { [manufacturer] : [avg] }
     """
 
-    # your code
+

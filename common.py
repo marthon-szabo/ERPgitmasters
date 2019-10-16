@@ -7,6 +7,7 @@ import string
 import os
 import string
 
+
 def id_finder(table):
     id = []
     for item in table:
@@ -28,7 +29,6 @@ def generate_random(table):
     """
     char = string.ascii_lowercase
     sym = "[!@#$%^&*()?]"
-    id_ = id_finder(table)
 
     while True:
         pswd = []
@@ -43,14 +43,13 @@ def generate_random(table):
             return generated
 
 
-def bubble_sorting(your_list):
-    n = len(your_list)
-    for i in range(n):
-        for j in range(0, n-i-1):
-            if your_list[j] > your_list[j+1]:
-                your_list[j], your_list[j+1] = your_list[j+1], your_list[j]
-    return your_list
-
-
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def get_avrg(your_list):
+    n = len(your_list)
+    x = 0
+    for i in your_list:
+        x += i
+    return x/n
