@@ -168,7 +168,12 @@ def which_year_max(table):
     Returns:
         number
     """
-    year_prof = {}
+    years = list(set([item[3] for item in table]))
+    amounts = []
+    for i in range(len(years)):
+        amounts.append(0)
+    
+    year_prof = dict(zip(years, amounts))
     
     for item in table:
         if item[3] in year_prof:    
@@ -178,13 +183,7 @@ def which_year_max(table):
                 year_prof[item[3]] = year_prof[item[3]] - int(item[5])
         else:
             year_prof[item[3]] = 1
-    print(year_prof.items())
-    
-    
-    
-    
-
-    
+    return int(max(year_prof, key=year_prof.get))
 
 
 def avg_amount(table, year):
