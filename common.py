@@ -3,6 +3,7 @@ implement commonly used functions here
 """
 
 import random
+import os
 
 
 def generate_random(table):
@@ -17,30 +18,47 @@ def generate_random(table):
     Returns:
         string: Random and unique string
     """
+    while True:
+        generated = ''
+        pswd = []
 
-    generated = ''
-    pswd = []
+        char = r"qwertzuiopasdfghjklyxcvbnm"
+        sym = r"[!@#$%^&*()?]"
 
-    char = r"qwertzuiopasdfghjklyxcvbnm"
-    sym = r"[!@#$%^&*()?]"
+        for i in range(2, 4):
+            pswd.append(random.choice(char))
+            pswd.append(random.choice(char.upper()))
+            pswd.append(str(random.randint(0, 9)))
+            pswd.append(random.choice(sym))
 
-    for i in range(2, 4):
-        pswd.append(random.choice(char))
-        pswd.append(random.choice(char.upper()))
-        pswd.append(str(random.randint(0, 99)))
-        pswd.append(random.choice(sym))
+        random.shuffle(pswd)
 
-    random.shuffle(pswd)
+        generated = ("".join(pswd))[:8]
+        
+        for line in table:
+            if generated == line[0]:
+                continue
+        
+        break
 
-    generated = ("".join(pswd))[:8]
-    
     return generated
 
 
-def bubble_sort(your_list):
+def id_finder(table):
+    id = []
+    for item in table:
+        id.append(item[0])
+    return id
+
+
+def bubble_sorting(your_list):
     n = len(your_list)
     for i in range(n):
         for j in range(0, n-i-1):
             if your_list[j] > your_list[j+1]:
                 your_list[j], your_list[j+1] = your_list[j+1], your_list[j]
     return your_list
+
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')

@@ -1,5 +1,4 @@
 """ Inventory module
-
 Data table structure:
     * id (string): Unique and random generated identifier
         at least 2 special characters (except: ';'), 2 number, 2 lower and 2 upper case letters)
@@ -8,7 +7,6 @@ Data table structure:
     * purchase_year (number): Year of purchase
     * durability (number): Years it can be used
 """
-
 # everything you'll need is imported:
 # User interface module
 import ui
@@ -16,15 +14,6 @@ import ui
 import data_manager
 # common module
 import common
-
-
-def bubble_sort(your_list):
-    n = len(your_list)
-    for i in range(n):
-        for j in range(0, n-i-1):
-            if your_list[j] > your_list[j+1]:
-                your_list[j], your_list[j+1] = your_list[j+1], your_list[j]
-    return your_list
 
 
 def start_module():
@@ -36,33 +25,36 @@ def start_module():
     Returns:
         None
     """
-
+    common.clear()
+    table = data_manager.get_table_from_file("inventory/inventory.csv")
+    id_ = common.id_finder(table)
     options = ["Show table",
                "Add",
                "Remove",
                "Update",
                "Available",
                "Average durability by manufacturers"]
-    ui.print_menu("Inventory menu", options, "Go back to main menu")
-    inputs = ui.get_inputs(["Please enter a number: "], "")
-    option = inputs[0]
-    table = data_manager.get_table_from_file("inventory.csv")
-    if option == "1":
-        show_table(table)
-    elif option == "2":
-        add(table)
-    elif option == "3":
-        remove(table, id_)
-    elif option == "4":
-        update(table, id_)
-    elif option == "5":
-        get_available_items(table, year)
-    elif option == "6":
-        get_average_durability_by_manufacturers(table)
-    elif option == "0":
-        sys.exit(0)
-    else:
-        raise KeyError("There is no such option.")
+    while True:
+        ui.print_menu("Inventory menu", options, "Go back to main menu")
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == "1":
+            show_table(table)
+        elif option == "2":
+            add(table)
+        elif option == "3":
+            remove(table, id_)
+        elif option == "4":
+            update(table, id_)
+        elif option == "5":
+            get_available_items(table, year)
+        elif option == "6":
+            get_average_durability_by_manufacturers(table)
+        elif option == "0":
+            common.clear()
+            break
+        else:
+            raise KeyError("There is no such option.")
 
 
 def show_table(table):
@@ -75,8 +67,9 @@ def show_table(table):
     Returns:
         None
     """
-
-    # your code
+    common.clear()
+    title_list = ["ID", "Name", "Manufacturer", "Purchase year", "Durability"]
+    ui.print_table(table, title_list)
 
 
 def add(table):
@@ -90,8 +83,14 @@ def add(table):
         list: Table with a new record
     """
 
-    # your code
-
+    id_ = common.generate_random(table)
+    list_labels = ["Name: ", "Manufacturer: ", "Purchase year: ", "Durability: "]
+    title = "Please give all new data: "
+    item = ui.get_inputs(list_labels, title)
+    item.insert(0, id_)
+    table.append(item)
+    data_manager.write_table_to_file("inventory/inventory.csv", table)
+    common.clear()
     return table
 
 
@@ -107,9 +106,17 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    # your code
-
-    return table
+    remove_record = ui.get_inputs(["Enter an ID: "], "")
+    remove_id = remove_record[0]
+    if remove_id in id_:
+        for line in table:
+            if remove_id in line:
+                table.remove(line)
+                data_manager.write_table_to_file("inventory/inventory.csv", table)
+                common.clear()
+                return table
+    else:
+        ui.print_error_message("Invalid ID!")
 
 
 def update(table, id_):
@@ -123,10 +130,20 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
+    update_record = ui.get_inputs(["Enter an ID: "], "")
+    update_id = update_record[0]
+    if update_id in id_:
+        list_labels = ["Name: ", "Manufacturer: ", "Purchase year: ", "Durability: "]
+        title = "Please give all new data: "
+        item = ui.get_inputs(list_labels, title)
+        for line in table:
+            if update_id in line:
+                line[1:] = item
+                data_manager.write_table_to_file("inventory/inventory.csv", table)
+                return table
+    else:
+        ui.print_error_message("Invalid ID!")
 
-    # your code
-
-    return table
 
 
 # special functions:
@@ -144,7 +161,6 @@ def get_available_items(table, year):
         list: list of lists (the inner list contains the whole row with their actual data types)
     """
 
-    # your code
 
 
 def get_average_durability_by_manufacturers(table):
