@@ -22,7 +22,6 @@ EMAIL = 2
 SUBSCRIBED = 3
 
 
-
 def start_module():
     """
     Starts this module and displays its menu.
@@ -62,7 +61,7 @@ def start_module():
                 ui.print_error_message("Invalid ID!")
         elif option == "4":
             ids_we_have = common.id_finder(table)
-            update_record = ui.get_inputs(["Enter ID of customer to be deleted: "], "")
+            update_record = ui.get_inputs(["Enter ID of customer to be updated: "], "")
             update_id = update_record[ID]
             if update_id in ids_we_have:
                 table = update(table, update_id)
@@ -156,12 +155,20 @@ def update(table, id_):
 
     list_labels = ["Customer name: ", "E-mail address: ", "Subscribed (enter 1 to if yes, 0 if not): "]
     title = "Please give updated data of the customer: "
-    item = ui.get_inputs(list_labels, title)
-    for line in table:
-        if id_ in line:
-            line[1:] = item
-            data_manager.write_table_to_file("crm/customers.csv", table)
-            ui.print_result("ID with updated data in database", "Customer update succeeded.")
+    #item = ui.get_inputs(list_labels, title)
+    
+    while True:
+        item = ui.get_inputs(list_labels, title)
+        item.insert(ID, id_)
+        if item[SUBSCRIBED] == "1" or item[SUBSCRIBED] == "0":
+            for line in table:
+                if id_ in line:
+                    line[0:] = item
+                    data_manager.write_table_to_file("crm/customers.csv", table)
+                    ui.print_result("ID with updated data in database", "Customer update succeeded.")
+                    return table
+        else:
+            ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
             return table
 
 
