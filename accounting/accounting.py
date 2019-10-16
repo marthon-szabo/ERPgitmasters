@@ -20,6 +20,7 @@ import common
 
 items = data_manager.get_table_from_file("accounting/items.csv")
 id_for_test = "vH34Jz#&"
+year_to_test = 2015
 
 def start_module():
     """
@@ -53,7 +54,7 @@ def start_module():
         elif option == "5":
             which_year_max(items)
         elif option == "6":
-            print(option)
+            avg_amount(items, year_to_test)
         elif option == "0":
             break
         else:
@@ -71,9 +72,9 @@ def show_table(table):
         None
     """
     list_labels = ["id", "month", "day", "year", "type", "amount"]
-    table = data_manager.get_table_from_file("accounting/items.csv")
+    items = data_manager.get_table_from_file("accounting/items.csv")
     
-    #ui.print_table(acc_data, headers)
+    ui.print_table(items, list_labels)
 
 
 def add(table):
@@ -146,17 +147,17 @@ def which_year_max(table):
     Returns:
         number
     """
-    years = []
-    profit = []
-    for item in table:
-        years.append(item[3])
-        if item[4] == "in":
-            profit.append(int("+" + item[5]))
-        elif item[4] == "out":
-            profit.append(int("-" + item[5]))
-    print(years)
-    print(profit)
+    year_prof = {}
     
+    for item in table:
+        if item[3] in year_prof:    
+            if item[4] == "in":
+                year_prof[item[3]] = year_prof[item[3]] + int(item[5])
+            elif item[4] == "out":
+                year_prof[item[3]] = year_prof[item[3]] - int(item[5])
+        else:
+            year_prof[item[3]] = 1
+    print(year_prof.items())
     
     
     
