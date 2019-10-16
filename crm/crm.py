@@ -46,7 +46,6 @@ def start_module():
     while True:
         ui.print_menu(title, list_options, exit_message)
         id_ = common.id_finder(table)
-        
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
         if option == "1":
@@ -54,10 +53,8 @@ def start_module():
         elif option == "2":
             table = add(table)
         elif option == "3":
-            # id_ = ui.get_inputs(["Please enter an id: "], "")
             table = remove(table, id_)
         elif option == "4":
-            # id_ = ui.get_inputs(["Please enter an id: "], "")
             update(table, id_)
         elif option == "5":
             get_longest_name_id(table)
@@ -66,9 +63,7 @@ def start_module():
         elif option == "0":
             break
         else:
-            raise KeyError("There is no such option.")
-
-    # your code
+            ui.print_error_message("There is no such option.")
 
 
 def show_table(table):
