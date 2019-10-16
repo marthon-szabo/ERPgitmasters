@@ -41,12 +41,13 @@ def start_module():
                     "Get ID of the customer with the longest name",
                     "Get e-mail subscriber customers"]
     exit_message = "Exit to main menu"
-    table = data_manager.get_table_from_file("crm/customers.csv")
 
     while True:
+        table = data_manager.get_table_from_file("crm/customers.csv")
         ui.print_menu(title, list_options, exit_message)
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
+
         if option == "1":
             show_table(table)
         elif option == "2":
@@ -54,7 +55,7 @@ def start_module():
         elif option == "3":
             ids_we_have = common.id_finder(table)
             remove_record = ui.get_inputs(["Enter ID of customer to be deleted: "], "")
-            remove_id = remove_record[0]
+            remove_id = remove_record[ID]
             if remove_id in ids_we_have:
                 table = remove(table, remove_id)
             else:
@@ -62,7 +63,7 @@ def start_module():
         elif option == "4":
             ids_we_have = common.id_finder(table)
             update_record = ui.get_inputs(["Enter ID of customer to be deleted: "], "")
-            update_id = update_record[0]
+            update_id = update_record[ID]
             if update_id in ids_we_have:
                 table = update(table, update_id)
             else:
@@ -110,13 +111,16 @@ def add(table):
     id_ = common.generate_random(table)
     list_labels = ["Customer name: ", "E-mail address: ", "Subscribed (enter 1 to if yes, 0 if not): "]
     title = "Please enter new customer data to CRM database: "
-
-    new_item = ui.get_inputs(list_labels, title)
-    new_item.insert(0, id_)
-    table.append(new_item)
-    data_manager.write_table_to_file("crm/customers.csv", table)
-
-    return table
+    while True:
+        new_item = ui.get_inputs(list_labels, title)
+        new_item.insert(ID, id_)
+        if new_item[SUBSCRIBED] == "1" or new_item[SUBSCRIBED] == "0":
+            table.append(new_item)
+            data_manager.write_table_to_file("crm/customers.csv", table)
+            return table
+        else:
+            ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
+            return table
 
 
 def remove(table, id_):
@@ -150,8 +154,8 @@ def update(table, id_):
         list: table with updated record
     """
 
-    list_labels = ['Name of customer: ', 'E-mail address: ', 'Subscribed (enter 1 to if yes, 0 if not): ']
-    title = "Please give all new data: "
+    list_labels = ["Customer name: ", "E-mail address: ", "Subscribed (enter 1 to if yes, 0 if not): "]
+    title = "Please give updated data of the customer: "
     item = ui.get_inputs(list_labels, title)
     for line in table:
         if id_ in line:
