@@ -126,9 +126,9 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    for line in table:
-        if id_ in line:
-            table.remove(line)
+    for data in table:
+        if id_ in data:
+            table.remove(data)
             data_manager.write_table_to_file("inventory/inventory.csv", table)
             common.clear()
             return table
@@ -149,9 +149,9 @@ def update(table, id_):
     list_labels = ["Name: ", "Manufacturer: ", "Purchase year: ", "Durability: "]
     title = "Please give all new data: "
     item = ui.get_inputs(list_labels, title)
-    for line in table:
-        if id_ in line:
-            line[1:] = item
+    for data in table:
+        if id_ in data:
+            data[1:] = item
             data_manager.write_table_to_file("inventory/inventory.csv", table)
             common.clear()
             return table
@@ -172,12 +172,13 @@ def get_available_items(table, year):
         list: list of lists (the inner list contains the whole row with their actual data types)
     """
     available_items = []
-
-    for line in table:
-        line[3], line[4] = int(line[3]), int(line[4])
-        experation_year = line[3] + line[4]
+    purchase_year = 3
+    durability = 4
+    for data in table:
+        data[purchase_year], data[durability] = int(data[purchase_year]), int(data[durability])
+        experation_year = data[purchase_year] + data[durability]
         if year < experation_year:
-            available_items.append(line)
+            available_items.append(data)
     return available_items
 
 
@@ -193,11 +194,14 @@ def get_average_durability_by_manufacturers(table):
     """
 
     average = {}
-    for line in table:
-        if line[2] in average.keys():
-            average[line[2]] += [int(line[4])]
+    manufacturer = 2
+    durability = 4
+
+    for data in table:
+        if data[manufacturer] in average.keys():
+            average[data[manufacturer]] += [int(data[durability])]
         else:
-            average[line[2]] = [int(line[4])]
+            average[data[manufacturer]] = [int(data[durability])]
 
     for key, val in average.items():
         average[key] = common.get_avrg(val)
