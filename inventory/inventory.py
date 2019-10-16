@@ -167,7 +167,6 @@ def get_available_items(table, year):
     """
 
 
-
 def get_average_durability_by_manufacturers(table):
     """
     Question: What are the average durability times for each manufacturer?
@@ -179,4 +178,13 @@ def get_average_durability_by_manufacturers(table):
         dict: a dictionary with this structure: { [manufacturer] : [avg] }
     """
 
+    average = {}
+    for line in table:
+        if line[2] in average.keys():
+            average[line[2]] += [int(line[4])]
+        else:
+            average[line[2]] = [int(line[4])]
 
+    for k, v in average.items():
+        average[k] = common.get_avrg(v)
+    return average
