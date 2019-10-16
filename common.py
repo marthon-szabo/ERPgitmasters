@@ -34,6 +34,7 @@ def generate_random(table):
         pswd = []
         for i in range(2):
             pswd.extend([random.choice(char), random.choice(char.upper()), str(random.randint(0, 9)), random.choice(sym)])
+        random.shuffle(pswd)
         generated = ("".join(pswd))
 
         if generated in id_finder(table):
