@@ -48,10 +48,15 @@ def start_module():
             if id_ in existing_id:
                 remove(table, id_)
             else:
-                ui.print_error_message("Invalid ID!")
                 common.clear()
+                ui.print_error_message("Invalid ID!")
         elif option == "4":
-            update(table, id_)
+            update_record = ui.get_inputs(["Enter an ID: "], "")
+            id_ = update_record[0]
+            if id_ in existing_id:
+                update(table, id_)
+            else:
+                ui.print_error_message("Invalid ID!")
         elif option == "5":
             get_available_items(table, year)
         elif option == "6":
@@ -132,21 +137,16 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
-    update_record = ui.get_inputs(["Enter an ID: "], "")
-    update_id = update_record[0]
-    if update_id in id_:
-        list_labels = ["Name: ", "Manufacturer: ", "Purchase year: ", "Durability: "]
-        title = "Please give all new data: "
-        item = ui.get_inputs(list_labels, title)
-        for line in table:
-            if update_id in line:
-                line[1:] = item
-                data_manager.write_table_to_file("inventory/inventory.csv", table)
-                common.clear()
-                return table
-    else:
-        common.clear()
-        ui.print_error_message("Invalid ID!")
+
+    list_labels = ["Name: ", "Manufacturer: ", "Purchase year: ", "Durability: "]
+    title = "Please give all new data: "
+    item = ui.get_inputs(list_labels, title)
+    for line in table:
+        if id_ in line:
+            line[1:] = item
+            data_manager.write_table_to_file("inventory/inventory.csv", table)
+            common.clear()
+            return table
 
 
 # special functions:
