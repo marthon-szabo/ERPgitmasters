@@ -32,7 +32,7 @@ def start_module():
                "Add",
                "Remove",
                "Update",
-               "Available",
+               "Available items",
                "Average durability by manufacturers"]
     while True:
         table = data_manager.get_table_from_file("inventory/inventory.csv")
@@ -60,7 +60,13 @@ def start_module():
             else:
                 ui.print_error_message("Invalid ID!")
         elif option == "5":
-            get_available_items(table, year)
+            try:
+                durability_year = ui.get_inputs(["Enter a year: "], "")
+                year = int(durability_year[0])
+                get_available_items(table, year)
+            except ValueError:
+                common.clear()
+                ui.print_error_message("Invalid year!")
         elif option == "6":
             get_average_durability_by_manufacturers(table)
         elif option == "0":
@@ -165,6 +171,14 @@ def get_available_items(table, year):
     Returns:
         list: list of lists (the inner list contains the whole row with their actual data types)
     """
+    available_items = []
+
+    for line in table:
+        line[3], line[4] = int(line[3]), int(line[4])
+        experation_year = line[3] + line[4]
+        if year < experation_year:
+            available_items.append(line)
+    return available_items
 
 
 def get_average_durability_by_manufacturers(table):
@@ -185,6 +199,6 @@ def get_average_durability_by_manufacturers(table):
         else:
             average[line[2]] = [int(line[4])]
 
-    for k, v in average.items():
-        average[k] = common.get_avrg(v)
+    for key, val in average.items():
+        average[key] = common.get_avrg(val)
     return average
