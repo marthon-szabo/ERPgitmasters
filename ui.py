@@ -30,13 +30,20 @@ def print_table(table, title_list):
 
     for number in range(len(title_list)):
         columns.append([])
+        columns[column_num].append(title_list[column_num])
         for row in table:
             columns[column_num].append(row[column_num])
-            columns[column_num].append(title_list[column_num])
         column_num += 1
 
+    for database in columns:
+        n = len(database)
+        for i in range(n):
+            for j in range(0, n-i-1):
+                if len(database[j]) < len(database[j+1]):
+                    database[j], database[j+1] = database[j+1], database[j]
+
     for item in columns:
-        for k, item in enumerate(sorted(item, key=len, reverse=True)):
+        for k, item in enumerate(item):
             if k == 0:
                 length.append(len(item))
 

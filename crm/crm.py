@@ -22,7 +22,6 @@ EMAIL = 2
 SUBSCRIBED = 3
 
 
-
 def start_module():
     """
     Starts this module and displays its menu.
@@ -41,24 +40,33 @@ def start_module():
                     "Get ID of the customer with the longest name",
                     "Get e-mail subscriber customers"]
     exit_message = "Exit to main menu"
-    table = data_manager.get_table_from_file("crm/customers.csv")
 
     while True:
+        table = data_manager.get_table_from_file("crm/customers.csv")
         ui.print_menu(title, list_options, exit_message)
-        id_ = common.id_finder(table)
-        
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
+
         if option == "1":
             show_table(table)
         elif option == "2":
             table = add(table)
         elif option == "3":
-            # id_ = ui.get_inputs(["Please enter an id: "], "")
-            table = remove(table, id_)
+            ids_we_have = common.id_finder(table)
+            remove_record = ui.get_inputs(["Enter ID of customer to be deleted: "], "")
+            remove_id = remove_record[ID]
+            if remove_id in ids_we_have:
+                table = remove(table, remove_id)
+            else:
+                ui.print_error_message("Invalid ID!")
         elif option == "4":
-            # id_ = ui.get_inputs(["Please enter an id: "], "")
-            update(table, id_)
+            ids_we_have = common.id_finder(table)
+            update_record = ui.get_inputs(["Enter ID of customer to be updated: "], "")
+            update_id = update_record[ID]
+            if update_id in ids_we_have:
+                table = update(table, update_id)
+            else:
+                ui.print_error_message("Invalid ID!")
         elif option == "5":
             get_longest_name_id(table)
         elif option == "6":
@@ -66,9 +74,7 @@ def start_module():
         elif option == "0":
             break
         else:
-            raise KeyError("There is no such option.")
-
-    # your code
+            ui.print_error_message("There is no such option.")
 
 
 def show_table(table):
@@ -104,13 +110,16 @@ def add(table):
     id_ = common.generate_random(table)
     list_labels = ["Customer name: ", "E-mail address: ", "Subscribed (enter 1 to if yes, 0 if not): "]
     title = "Please enter new customer data to CRM database: "
-
-    new_item = ui.get_inputs(list_labels, title)
-    new_item.insert(0, id_)
-    table.append(new_item)
-    data_manager.write_table_to_file("crm/customers.csv", table)
-
-    return table
+    while True:
+        new_item = ui.get_inputs(list_labels, title)
+        new_item.insert(ID, id_)
+        if new_item[SUBSCRIBED] == "1" or new_item[SUBSCRIBED] == "0":
+            table.append(new_item)
+            data_manager.write_table_to_file("crm/customers.csv", table)
+            return table
+        else:
+            ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
+            return table
 
 
 def remove(table, id_):
@@ -124,19 +133,12 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
-    remove_record = ui.get_inputs(["Enter ID of customer to be deleted: "], "")
-    remove_id = remove_record[0]
-    if remove_id in id_:
-        for line in table:
-            if remove_id in line:
-                table.remove(line)
-                data_manager.write_table_to_file("crm/customers.csv", table)
-                ui.print_result("ID no longer in database", "Customer deletion succeeded.")
-                return table
-    else:
-        ui.print_error_message("Invalid ID!")
-
-    return table
+    for line in table:
+        if id_ in line:
+            table.remove(line)
+            data_manager.write_table_to_file("crm/customers.csv", table)
+            ui.print_result("ID no longer in database", "Customer deletion succeeded.")
+            return table
 
 
 def update(table, id_):
@@ -151,19 +153,23 @@ def update(table, id_):
         list: table with updated record
     """
 
-    update_record = ui.get_inputs(["Enter ID of customer to be updated: "], "")
-    update_id = update_record[0]
-    if update_id in id_:
-        list_labels = ['Name of customer: ', 'E-mail address: ', 'Subscribed (enter 1 to if yes, 0 if not): ']
-        title = "Please give all new data: "
+    list_labels = ["Customer name: ", "E-mail address: ", "Subscribed (enter 1 to if yes, 0 if not): "]
+    title = "Please give updated data of the customer: "
+    #item = ui.get_inputs(list_labels, title)
+    
+    while True:
         item = ui.get_inputs(list_labels, title)
-        for line in table:
-            if update_id in line:
-                line[1:] = item
-                data_manager.write_table_to_file("crm/customers.csv", table)
-                return table
-    else:
-        ui.print_error_message("Invalid ID!")
+        item.insert(ID, id_)
+        if item[SUBSCRIBED] == "1" or item[SUBSCRIBED] == "0":
+            for line in table:
+                if id_ in line:
+                    line[0:] = item
+                    data_manager.write_table_to_file("crm/customers.csv", table)
+                    ui.print_result("ID with updated data in database", "Customer update succeeded.")
+                    return table
+        else:
+            ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
+            return table
 
 
 # special functions:
