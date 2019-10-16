@@ -3,6 +3,7 @@ implement commonly used functions here
 """
 
 import random
+import string
 import os
 
 

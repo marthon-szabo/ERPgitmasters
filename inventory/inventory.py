@@ -27,7 +27,7 @@ def start_module():
     """
     common.clear()
     table = data_manager.get_table_from_file("inventory/inventory.csv")
-    id_ = common.id_finder(table)
+    existing_id = common.id_finder(table)
     options = ["Show table",
                "Add",
                "Remove",
@@ -43,7 +43,13 @@ def start_module():
         elif option == "2":
             add(table)
         elif option == "3":
-            remove(table, id_)
+            remove_record = ui.get_inputs(["Enter an ID: "], "")
+            id_ = remove_record[0]
+            if id_ in existing_id:
+                remove(table, id_)
+            else:
+                ui.print_error_message("Invalid ID!")
+                common.clear()
         elif option == "4":
             update(table, id_)
         elif option == "5":
@@ -54,6 +60,7 @@ def start_module():
             common.clear()
             break
         else:
+            common.clear()
             raise KeyError("There is no such option.")
 
 
@@ -106,17 +113,12 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    remove_record = ui.get_inputs(["Enter an ID: "], "")
-    remove_id = remove_record[0]
-    if remove_id in id_:
-        for line in table:
-            if remove_id in line:
-                table.remove(line)
-                data_manager.write_table_to_file("inventory/inventory.csv", table)
-                common.clear()
-                return table
-    else:
-        ui.print_error_message("Invalid ID!")
+    for line in table:
+        if id_ in line:
+            table.remove(line)
+            data_manager.write_table_to_file("inventory/inventory.csv", table)
+            common.clear()
+            return table
 
 
 def update(table, id_):
@@ -140,10 +142,11 @@ def update(table, id_):
             if update_id in line:
                 line[1:] = item
                 data_manager.write_table_to_file("inventory/inventory.csv", table)
+                common.clear()
                 return table
     else:
+        common.clear()
         ui.print_error_message("Invalid ID!")
-
 
 
 # special functions:
