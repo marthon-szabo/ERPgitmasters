@@ -26,6 +26,7 @@ DAY = 4
 YEAR = 5
 FILE_LOCATION = "sales/sales.csv"
 
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -37,10 +38,10 @@ def start_module():
     """
 
     title = "SALES"
-    list_options = ["Show all games and data",
-                    "Add a new game",
-                    "Remove a game",
-                    "Update a game's data",
+    list_options = ["Show all game sales data",
+                    "Add a new game sale",
+                    "Remove a game sale",
+                    "Update a game sale's data",
                     "Get ID of lowest priced item",
                     "Get sold items between dates"]
     exit_message = "Exit to main menu"
@@ -57,7 +58,7 @@ def start_module():
             table = add(table)
         elif option == "3":
             ids_we_have = common.id_finder(table)
-            remove_record = ui.get_inputs(["Enter ID of customer to be deleted: "], "")
+            remove_record = ui.get_inputs(["Enter ID of game to be deleted: "], "")
             remove_id = remove_record[ID]
             if remove_id in ids_we_have:
                 table = remove(table, remove_id)
@@ -65,7 +66,7 @@ def start_module():
                 ui.print_error_message("Invalid ID!")
         elif option == "4":
             ids_we_have = common.id_finder(table)
-            update_record = ui.get_inputs(["Enter ID of customer to be updated: "], "")
+            update_record = ui.get_inputs(["Enter ID of game to be updated: "], "")
             update_id = update_record[ID]
             if update_id in ids_we_have:
                 table = update(table, update_id)
@@ -93,7 +94,8 @@ def show_table(table):
         None
     """
 
-    # your code
+    title_list = ["ID", "Title", "Price", "Month", "Day", "Year"]
+    ui.print_table(table, title_list)
 
 
 def add(table):
@@ -107,9 +109,25 @@ def add(table):
         list: Table with a new record
     """
 
-    # your code
+    id_ = common.generate_random(table)
+    list_labels = ["Title: ", "Price: ", "Month: ", "Day: ", "Year: "]
+    title = "Please enter new game sale data to database: "
 
-    return table
+    while True:
+        new_item = ui.get_inputs(list_labels, title)
+        new_item.insert(ID, id_)
+        try:
+            int(new_item[PRICE])
+            int(new_item[MONTH])
+            int(new_item[DAY])
+            int(new_item[YEAR])
+            table.append(new_item)
+            data_manager.write_table_to_file(FILE_LOCATION, table)
+            ui.print_result("Game sale added to database.", "Operation succeeded.")
+            return table
+        except ValueError:
+            ui.print_error_message("Invalid input: price, year, month and day must all be numbers.")
+            return table
 
 
 def remove(table, id_):
@@ -124,9 +142,12 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    # your code
-
-    return table
+    for line in table:
+        if id_ in line:
+            table.remove(line)
+            data_manager.write_table_to_file(FILE_LOCATION, table)
+            ui.print_result(f"ID {id_} no longer in database", "Game sale deletion succeeded.")
+            return table
 
 
 def update(table, id_):
@@ -140,10 +161,26 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
+    list_labels = ["Title: ", "Price: ", "Month: ", "Day: ", "Year: "]
+    title = "Please give updated data of the game sale: "
 
-    # your code
-
-    return table
+    while True:
+        item = ui.get_inputs(list_labels, title)
+        item.insert(ID, id_)
+        try:
+            int(item[PRICE])
+            int(item[MONTH])
+            int(item[DAY])
+            int(item[YEAR])
+            for line in table:
+                if id_ in line:
+                    line[0:] = item
+                    data_manager.write_table_to_file(FILE_LOCATION, table)
+                    ui.print_result(f"ID {id_} with updated data in database", "Game sale update succeeded.")
+                    return table
+        except ValueError:
+            ui.print_error_message("Invalid input: price and stock must be a number.")
+            return table
 
 
 # special functions:
