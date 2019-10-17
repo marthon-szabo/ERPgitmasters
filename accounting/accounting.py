@@ -19,8 +19,6 @@ import data_manager
 import common
 
 items = data_manager.get_table_from_file("accounting/items.csv")
-id_for_test = "vH34Jz#&"
-year_to_test = 2015
 
 def start_module():
     """
@@ -31,16 +29,16 @@ def start_module():
     Returns:
         None
     """
-    
-    options = ["Show table",
-                "Add",
-                "Remove",
-                "Update",
+    common.clear()
+    options = ["Show accounting table",
+                "Add new accounting item",
+                "Remove an accounting item",
+                "Update one item in the accounting table",
                 "Which year has the highest profit?",
                 "What is the average (per item) profit in a given year?"]
     while True:
-        ui.print_menu("Accounting", options, "Back to main menu")
-
+        id_ = ""
+        ui.print_menu("Accounting menu", options, "Back to main menu")
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
         if option == "1":
@@ -48,18 +46,33 @@ def start_module():
         elif option == "2":
             add(items)
         elif option == "3":
-            remove(items, id_for_test)
+            id_ = ui.get_inputs(["Please enter an id: "], "")
+            identifiers = common.id_finder(items)
+            if id_[0] in identifiers:
+                remove(items, id_[0])
+                break
+            else:
+                ui.print_error_message("No such id.")
         elif option == "4":
-            update(items, id_for_test)
+            id_ = ui.get_inputs(["Please enter an id: "], "")
+            identifiers = common.id_finder(items)
+            if id_[0] in identifiers:
+                update(items, id_[0])
+                break
+            else:
+                ui.print_error_message("No such id.")
         elif option == "5":
             which_year_max(items)
         elif option == "6":
-            avg_amount(items, year_to_test)
+            seek_year = ui.get_inputs(["Please enter a year: "], "")
+            avg_amount(items, seek_year)
         elif option == "0":
+            common.clear()
             break
         else:
-            raise KeyError("There is no such option.")
-        
+            ui.print_error_message("There is no such option.")
+            #raise KeyError("There is no such option.")
+            continue
 
 def show_table(table):
     """
@@ -71,9 +84,8 @@ def show_table(table):
     Returns:
         None
     """
+    common.clear()
     list_labels = ["id", "month", "day", "year", "type", "amount"]
-    items = data_manager.get_table_from_file("accounting/items.csv")
-    
     ui.print_table(items, list_labels)
 
 
@@ -87,12 +99,15 @@ def add(table):
     Returns:
         list: Table with a new record
     """
+    
     id_ = common.generate_random(table)
     list_labels = ["month ", "day ", "year ", "type ", "amount "]
     title = "Please give all new data: "
     item = ui.get_inputs(list_labels, title)
     item.insert(0, id_)
     table.append(item)
+    data_manager.write_table_to_file("accounting/items.csv", table)
+    common.clear()
     return table
 
 
@@ -107,10 +122,14 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
+    
     for item in table:
         if item[0] == id_:
             table.remove(item)
-    return table
+            data_manager.write_table_to_file("accounting/items.csv", table)
+            common.clear()
+            return table
+    ui.print_error_message("There is no such item in the list.")
 
 
 def update(table, id_):
@@ -130,8 +149,10 @@ def update(table, id_):
     item.insert(0, id_)
     for element in table:
         if element[0] == id_:
-            element[0] = item
-    return table
+            element[0:] = item
+            data_manager.write_table_to_file("accounting/items.csv", table)
+            return table
+    ui.print_error_message("There is no such item in the list.")
 
 
 # special functions:
@@ -147,7 +168,12 @@ def which_year_max(table):
     Returns:
         number
     """
-    year_prof = {}
+    years = list(set([item[3] for item in table]))
+    amounts = []
+    for i in range(len(years)):
+        amounts.append(0)
+    
+    year_prof = dict(zip(years, amounts))
     
     for item in table:
         if item[3] in year_prof:    
@@ -157,13 +183,7 @@ def which_year_max(table):
                 year_prof[item[3]] = year_prof[item[3]] - int(item[5])
         else:
             year_prof[item[3]] = 1
-    print(year_prof.items())
-    
-    
-    
-    
-
-    
+    return int(max(year_prof, key=year_prof.get))
 
 
 def avg_amount(table, year):
