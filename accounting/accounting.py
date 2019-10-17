@@ -240,7 +240,7 @@ def avg_amount(table, year):
     
     amounts = []
     for item in table:
-        if item[3] == year:
+        if str(item[3]) == str(year):
             if item[4] == "in":
                 amounts.append(str("+"+item[5]))
             elif item[4] == "out":
