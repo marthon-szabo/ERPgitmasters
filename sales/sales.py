@@ -29,8 +29,6 @@ def start_module():
         None
     """
 
-    # your code
-
 
 def show_table(table):
     """
@@ -111,7 +109,22 @@ def get_lowest_price_item_id(table):
          string: id
     """
 
-    # your code
+    price_index = 2
+    id_index = 0
+    title_index = 1
+    id_name_and_price = {}
+    prices = []
+    titles_with_lowest_price = []
+    for data in table:
+        id_name_and_price[data[id_index]] = [data[title_index], int(data[price_index])]
+        prices.append(int(data[price_index]))
+    for key, val in id_name_and_price.items():
+        if val[1] == min(prices):
+            id_name_and_price[key] = val[0]
+            titles_with_lowest_price.append(val[0])
+    for key, val in id_name_and_price.items():
+        if min(titles_with_lowest_price) == val:
+            return key
 
 
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
@@ -132,3 +145,5 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     """
 
     # your code
+items_sold_between = []
+start_day = 
