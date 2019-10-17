@@ -40,7 +40,7 @@ def start_module():
                     "Remove a game",
                     "Update a game's data",
                     "How many different kinds of game are available of each manufacturer",
-                    "Get average amount of games by manufacturer"]
+                    "Get average amount of games by a manufacturer"]
     exit_message = "Exit to main menu"
 
     while True:
@@ -74,13 +74,18 @@ def start_module():
             ui.print_result("Manufacturers have the following amount of games", "")
             ui.print_result(counts, ["Manufacturers", "Number of games"])
         elif option == "6":
-            "USER_INPUT"
-            get_average_by_manufacturer(table, manufacturer)
+            manufacturers_we_have = common.manufacturer_finder(table)
+            get_manufacturer = ui.get_inputs(["Enter name of Manufacturer to be checked: "], "")
+            manufacturer_name = get_manufacturer[0]
+            if manufacturer_name in manufacturers_we_have:
+                result = get_average_by_manufacturer(table, manufacturer_name)
+                ui.print_result(result, f"Average amount of stock by {manufacturer_name}:")
+            else:
+                ui.print_error_message("Invalid ID!")
         elif option == "0":
             break
         else:
             ui.print_error_message("There is no such option.")
-    # your code
 
 
 def show_table(table):
@@ -145,7 +150,7 @@ def remove(table, id_):
         if id_ in line:
             table.remove(line)
             data_manager.write_table_to_file(FILE_LOCATION, table)
-            ui.print_result("ID no longer in database", "Game deletion succeeded.")
+            ui.print_result(f"ID {id_} no longer in database", "Game deletion succeeded.")
             return table
 
 
@@ -174,7 +179,7 @@ def update(table, id_):
                 if id_ in line:
                     line[0:] = item
                     data_manager.write_table_to_file(FILE_LOCATION, table)
-                    ui.print_result("ID with updated data in database", "Game update succeeded.")
+                    ui.print_result(f"ID {id_} with updated data in database", "Game update succeeded.")
                     return table
         except ValueError:
             ui.print_error_message("Invalid input: price and stock must be a number.")
@@ -217,5 +222,12 @@ def get_average_by_manufacturer(table, manufacturer):
     Returns:
          number
     """
+    total_stock_amount = 0
+    number_of_titles = 0
+    for line in table:
+        if line[MANUFACTURER] == manufacturer:
+            total_stock_amount += int(line[IN_STOCK])
+            number_of_titles += 1
 
+    return total_stock_amount / number_of_titles
     # your code

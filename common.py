@@ -14,6 +14,11 @@ def id_finder(table):
         id.append(item[0])
     return id
 
+def manufacturer_finder(table):
+    manufacturers = []
+    for item in table:
+        manufacturers.append(item[2])
+    return manufacturers
 
 def generate_random(table):
     """
