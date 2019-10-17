@@ -73,12 +73,8 @@ def show_table(table):
     
     print(table)    
     
-    """with open("/home/skogmaan/lightweight-erp-python-erp-lite/hr/" + table, "r+") as imported_file:
-        one_d_persons_list = imported_file.read().splitlines()
-        global two_d_list
-        two_d_list = [[line] for line in one_d_persons_list]
-        
-        print(two_d_list)"""
+    
+    
         
 
 
@@ -100,6 +96,7 @@ def add(table):
     table.append(new_record)
    
 
+    data_manager.write_table_to_file("hr/persons.csv", table)  
     return table
 
 
@@ -118,7 +115,7 @@ def remove(table, id_):
         for i in elem:
             if id_ in i:
                 table.remove(elem)
-    print(table)
+    data_manager.write_table_to_file("hr/persons.csv", table)  
     return table
 
 
@@ -145,10 +142,7 @@ def update(table, id_):
             if id_ in elem[0]:
                 user_text_new = input(f"Previous Date of Birth: {elem[2]}.\n\nNew Date of Birth: ")
                 elem[2] = user_text_new 
-    print(table)
-
-     
-                    
+    data_manager.write_table_to_file("hr/persons.csv", table)  
     return table
 
 
@@ -178,7 +172,7 @@ def get_oldest_person(table):
             if table[i][2] == table[i + 1][2]:
                 names.append(table[i + 1][1])
     names = list(set(names))
-               
+   
     return names
     ######
 
@@ -222,7 +216,7 @@ def get_persons_closest_to_average(table):
         for j in range(0, unsorted_list-i-1):
             if closest_to_average_list[j][1] > closest_to_average_list[j+1][1]:
                 closest_to_average_list[j], closest_to_average_list[j+1] = closest_to_average_list[j+1], closest_to_average_list[j]
-    print(closest_to_average_list)
+    
     names = []
     names.append(closest_to_average_list[0][0])
     for i in range(0, len(closest_to_average_list)):
@@ -230,7 +224,9 @@ def get_persons_closest_to_average(table):
             names.append(closest_to_average_list[i][0])
         #for i in range(0, len(elem)):
         #    if elem[]
-    print(list(set(names)))
+    final = list(set(names))
+    
+    return final
 
 
 
