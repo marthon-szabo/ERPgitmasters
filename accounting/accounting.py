@@ -206,7 +206,18 @@ def avg_amount(table, year):
     Returns:
         number
     """
-    label = "The average profit (per item) in the given year is:"
-    result = 0
+    
+    profit = []
+    for item in table:
+        if item[3] == year[0]:
+            if item[4] == "in":
+                profit.append(str("+"+item[5]))
+            elif item[4] == "out":
+                profit.append(str("+"+item[5]))
+    for i in range(len(profit)):
+        profit[i] = int(profit[i])
+    result = common.get_avrg(profit)
+    label = (f"The average profit (per item) in the year {year[0]} is:")
+    #result = 48.125
     ui.print_result(result, label)
     return result
