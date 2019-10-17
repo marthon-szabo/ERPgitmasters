@@ -87,6 +87,20 @@ def start_module():
                                      )
             month_from, day_from, year_from, month_to, day_to, year_to = get_dates
             result = get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
+            ui.print_result(
+                "",
+                'Items sold between ' +
+                str(month_from) +
+                '/' +
+                str(day_from) +
+                '/' +
+                str(year_from) +
+                '-' +
+                str(month_to) +
+                '/' +
+                str(day_to) +
+                '/' +
+                str(year_to))
             for line in result:
                 line[PRICE] = str(line[PRICE])
                 line[YEAR] = str(line[YEAR])
@@ -142,7 +156,7 @@ def add(table):
                 and int(new_item[MONTH]) >= 1 and int(new_item[MONTH]) <= 12
                 and int(new_item[DAY]) >= 1 and int(new_item[MONTH]) <= 31
                 and int(new_item[YEAR]) >= 1000 and int(new_item[YEAR]) <= 3000
-            ):
+                ):
                 table.append(new_item)
                 data_manager.write_table_to_file(FILE_LOCATION, table)
                 ui.print_result("Game sale added to database.", "Operation succeeded.")
@@ -201,7 +215,7 @@ def update(table, id_):
                 and int(item[MONTH]) >= 1 and int(item[MONTH]) <= 12
                 and int(item[DAY]) >= 1 and int(item[MONTH]) <= 31
                 and int(item[YEAR]) >= 1000 and int(item[YEAR]) <= 3000
-            ):
+                ):
                 for line in table:
                     if id_ in line:
                         line[0:] = item
@@ -265,6 +279,15 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
         list: list of lists (the filtered table)
     """
 
+    """
+    items_sold_between = []
+    for data in table:
+        if int(data[YEAR]) >= year_from and int(data[YEAR]) <= year_to:
+            if int(data[MONTH]) >= month_from and int(data[MONTH]) <= month_to:
+                if int(data[DAY]) <= day_from and int(data[DAY]) >= day_to:
+                    items_sold_between.append(data)
+    return items_sold_between
+    """
     while True:
         try:
             int(month_from)
@@ -274,33 +297,36 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
             int(year_from)
             int(year_to)
 
-            if (0 >= int(year_from) <= 9999
-                and 0 >= int(year_to) <= 9999
-                and 1 >= int(month_from) <= 12
-                and 1 >= int(month_to) <= 12
-                and 1 >= int(day_from) <= 31
-                and 1 >= int(day_to) <= 31
-            ):
+            while True:
+                valid_month_from = int(month_from) in range(1, 13)
+                valid_month_to = int(month_to) in range(1, 13)
+                valid_day_from = int(day_from) in range(1, 32)
+                valid_day_to = int(day_to) in range(1, 32)
+                valid_year_from = int(year_from) in range(1900, 3001)
+                valid_year_to = int(year_to) in range(1900, 3001)
 
-                filtered_table = []
+                valid = [valid_day_from, valid_day_to, valid_month_from, valid_month_to, valid_year_from, valid_year_to]
+                if all(valid):
+                    break
+                else:
+                    raise ValueError
 
-                from_date = (int(year_from), int(month_from), int(day_from))
-                to_date = (int(year_to), int(month_to), int(day_to))
+            filtered_table = []
 
-                for line in table:
-                    if from_date < (int(line[YEAR]), int(line[MONTH]), int(line[DAY])) < to_date:
-                        filtered_table.append(line[:6])
+            from_date = (int(year_from), int(month_from), int(day_from))
+            to_date = (int(year_to), int(month_to), int(day_to))
 
-                for line in filtered_table:
-                    line[YEAR], line[DAY], line[MONTH], line[PRICE] = int(
-                        line[YEAR]), int(line[DAY]), int(line[MONTH]), int(line[PRICE])
+            for line in table:
+                if from_date < (int(line[YEAR]), int(line[MONTH]), int(line[DAY])) < to_date:
+                    filtered_table.append(line[:6])
 
-                return filtered_table
-
-            else:
-                raise ValueError
+            for line in filtered_table:
+                line[YEAR], line[DAY], line[MONTH], line[PRICE] = int(
+                    line[YEAR]), int(line[DAY]), int(line[MONTH]), int(line[PRICE])
+            return filtered_table
 
         except ValueError:
             ui.print_error_message("Invalid input: year, month and day must all be numbers and have valid values.")
-            error_table = [["no ID", "no title", "no price", "no month", "no day", "no year"]]
+            error_table = [["invalid input", "invalid input", "invalid input",
+                            "invalid input", "invalid input", "invalid input"]]
             return error_table
