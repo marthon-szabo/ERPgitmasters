@@ -172,7 +172,7 @@ def update(table, id_):
         item = ui.get_inputs(list_labels, title)
         valid_month = item[0].isnumeric() and int(item[0]) in range(1, 13)
         valid_day = item[1].isnumeric() and int(item[1]) in range(1, 32)
-        valid_year = (item[2].isnumeric() and int(item[2]) in range(1900, 3001))
+        valid_year = item[2].isnumeric() and int(item[2]) in range(1900, 3001)
         valid_type = item[3] in valid_types
         valid_amount = item[4].isnumeric()
         valid = [valid_month, valid_day, valid_year, valid_type, valid_amount]
