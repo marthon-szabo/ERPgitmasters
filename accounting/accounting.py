@@ -104,11 +104,22 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-    
+    valid_types = ["in", "out"]
     id_ = common.generate_random(table)
-    list_labels = ["month ", "day ", "year ", "type ", "amount "]
+    list_labels = ["month (1-12): ", "day (1-31): ", "year (1900-3000): ", "type (\"in/out\"): ", "amount: "]
     title = "Please give all new data: "
-    item = ui.get_inputs(list_labels, title)
+    while True:
+        item = ui.get_inputs(list_labels, title)
+        valid_month = item[0].isnumeric() and int(item[0]) in range(1, 13)
+        valid_day = item[1].isnumeric() and int(item[1]) in range(1, 32)
+        valid_year = (item[2].isnumeric() and int(item[2]) in range(1900, 3001))
+        valid_type = item[3] in valid_types
+        valid_amount = item[4].isnumeric()
+        valid = [valid_month, valid_day, valid_year, valid_type, valid_amount]
+        if all(valid):
+            break
+        else:
+            ui.print_error_message("Please check your data.")   
     item.insert(0, id_)
     table.append(item)
     data_manager.write_table_to_file("accounting/items.csv", table)
@@ -154,14 +165,29 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
-    list_labels = ["month ", "day ", "year ", "type ", "amount "]
+    valid_types = ["in", "out"]
+    list_labels = ["month (1-12): ", "day (1-31): ", "year (1900-3000): ", "type (\"in/out\"): ", "amount: "]
     title = "Please give all new data: "
-    item = ui.get_inputs(list_labels, title)
+    while True:
+        item = ui.get_inputs(list_labels, title)
+        valid_month = item[0].isnumeric() and int(item[0]) in range(1, 13)
+        valid_day = item[1].isnumeric() and int(item[1]) in range(1, 32)
+        valid_year = (item[2].isnumeric() and int(item[2]) in range(1900, 3001))
+        valid_type = item[3] in valid_types
+        valid_amount = item[4].isnumeric()
+        valid = [valid_month, valid_day, valid_year, valid_type, valid_amount]
+        if all(valid):
+            break
+        else:
+            ui.print_error_message("Please check your data.")
     item.insert(0, id_)
     for element in table:
         if element[0] == id_:
             element[0:] = item
             data_manager.write_table_to_file("accounting/items.csv", table)
+            label = ("The data under the following id have been updated:")
+            result = id_ 
+            ui.print_result(result, label)
             return table
     ui.print_error_message("There is no such item in the list.")
 
