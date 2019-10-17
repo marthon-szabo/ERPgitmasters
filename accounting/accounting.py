@@ -108,6 +108,9 @@ def add(table):
     table.append(item)
     data_manager.write_table_to_file("accounting/items.csv", table)
     common.clear()
+    label = ("The data have been added to the table under this id:")
+    result = id_ 
+    ui.print_result(result, label)
     return table
 
 
@@ -128,6 +131,9 @@ def remove(table, id_):
             table.remove(item)
             data_manager.write_table_to_file("accounting/items.csv", table)
             common.clear()
+            label = ("The data under the following id have been removed from the table:")
+            result = id_ 
+            ui.print_result(result, label)
             return table
     ui.print_error_message("There is no such item in the list.")
 
@@ -183,7 +189,10 @@ def which_year_max(table):
                 year_prof[item[3]] = year_prof[item[3]] - int(item[5])
         else:
             year_prof[item[3]] = 1
-    return int(max(year_prof, key=year_prof.get))
+    result = int(max(year_prof, key=year_prof.get))
+    label = "The following year has the highest profit:"
+    ui.print_result(result, label)
+    return result
 
 
 def avg_amount(table, year):
@@ -197,5 +206,7 @@ def avg_amount(table, year):
     Returns:
         number
     """
-
-    # your code
+    label = "The average profit (per item) in the given year is:"
+    result = 0
+    ui.print_result(result, label)
+    return result
