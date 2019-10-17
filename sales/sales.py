@@ -142,7 +142,7 @@ def add(table):
                 and int(new_item[MONTH]) >= 1 and int(new_item[MONTH]) <= 12
                 and int(new_item[DAY]) >= 1 and int(new_item[MONTH]) <= 31
                 and int(new_item[YEAR]) >= 1000 and int(new_item[YEAR]) <= 3000
-                ):
+            ):
                 table.append(new_item)
                 data_manager.write_table_to_file(FILE_LOCATION, table)
                 ui.print_result("Game sale added to database.", "Operation succeeded.")
@@ -201,7 +201,7 @@ def update(table, id_):
                 and int(item[MONTH]) >= 1 and int(item[MONTH]) <= 12
                 and int(item[DAY]) >= 1 and int(item[MONTH]) <= 31
                 and int(item[YEAR]) >= 1000 and int(item[YEAR]) <= 3000
-                ):
+            ):
                 for line in table:
                     if id_ in line:
                         line[0:] = item
@@ -265,15 +265,6 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
         list: list of lists (the filtered table)
     """
 
-    """
-    items_sold_between = []
-    for data in table:
-        if int(data[YEAR]) >= year_from and int(data[YEAR]) <= year_to:
-            if int(data[MONTH]) >= month_from and int(data[MONTH]) <= month_to:
-                if int(data[DAY]) <= day_from and int(data[DAY]) >= day_to:
-                    items_sold_between.append(data)
-    return items_sold_between
-    """
     while True:
         try:
             int(month_from)
@@ -289,7 +280,7 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
                 and 1 >= int(month_to) <= 12
                 and 1 >= int(day_from) <= 31
                 and 1 >= int(day_to) <= 31
-                ):
+            ):
 
                 filtered_table = []
 
@@ -299,7 +290,6 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
                 for line in table:
                     if from_date < (int(line[YEAR]), int(line[MONTH]), int(line[DAY])) < to_date:
                         filtered_table.append(line[:6])
-
 
                 for line in filtered_table:
                     line[YEAR], line[DAY], line[MONTH], line[PRICE] = int(
