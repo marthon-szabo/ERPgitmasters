@@ -163,7 +163,7 @@ def update(table, id_):
 
     list_labels = ["Customer name: ", "E-mail address: ", "Subscribed (enter 1 to if yes, 0 if not): "]
     title = "Please give updated data of the customer: "
-    
+
     while True:
         item = ui.get_inputs(list_labels, title)
         item.insert(ID, id_)

@@ -18,6 +18,13 @@ import data_manager
 # common module
 import common
 
+ID = 0
+TITLE = 1
+PRICE = 2
+MONTH = 3
+DAY = 4
+YEAR = 5
+FILE_LOCATION = "sales/sales.csv"
 
 def start_module():
     """
@@ -29,7 +36,50 @@ def start_module():
         None
     """
 
-    # your code
+    title = "SALES"
+    list_options = ["Show all games and data",
+                    "Add a new game",
+                    "Remove a game",
+                    "Update a game's data",
+                    "Get ID of lowest priced item",
+                    "Get sold items between dates"]
+    exit_message = "Exit to main menu"
+
+    while True:
+        table = data_manager.get_table_from_file(FILE_LOCATION)
+        ui.print_menu(title, list_options, exit_message)
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+
+        if option == "1":
+            show_table(table)
+        elif option == "2":
+            table = add(table)
+        elif option == "3":
+            ids_we_have = common.id_finder(table)
+            remove_record = ui.get_inputs(["Enter ID of customer to be deleted: "], "")
+            remove_id = remove_record[ID]
+            if remove_id in ids_we_have:
+                table = remove(table, remove_id)
+            else:
+                ui.print_error_message("Invalid ID!")
+        elif option == "4":
+            ids_we_have = common.id_finder(table)
+            update_record = ui.get_inputs(["Enter ID of customer to be updated: "], "")
+            update_id = update_record[ID]
+            if update_id in ids_we_have:
+                table = update(table, update_id)
+            else:
+                ui.print_error_message("Invalid ID!")
+        elif option == "5":
+            result = get_lowest_price_item_id(table)
+            ui.print_result(result, "The ID of game with the lowest price: ")
+        elif option == "6":
+            get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
+        elif option == "0":
+            break
+        else:
+            ui.print_error_message("There is no such option.")
 
 
 def show_table(table):
