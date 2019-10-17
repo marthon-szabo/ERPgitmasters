@@ -6,16 +6,17 @@ Data table structure:
     * name (string)
     * birth_year (number)
 """
-
+import datetime
 # everything you'll need is imported:
 # User interface module
 import ui
+
 # data manager module
 import data_manager
 # common module
 import common
 
-
+items = data_manager.get_table_from_file("hr/persons.csv")
 def start_module():
     """
     Starts this module and displays its menu.
@@ -25,10 +26,39 @@ def start_module():
     Returns:
         None
     """
+    
+    options = ["Show table",
+                    "Add",
+                    "Remove",
+                    "Update",
+                    "Get oldest",
+                    "Get average"]
+    while True:
+            
 
-    # your code
-
-
+        ui.print_menu("Human resorces", options, "Main menu")
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == "1":
+            show_table(items)
+        elif option == "2":
+            add(items)
+        elif option == "3":
+            id_ = ui.get_inputs(["Write the id: "], "")
+            remove(items, id_)
+        elif option == "4":
+            id_ = ui.get_inputs(["Write the id: "], "")
+            update(items, id_)
+        elif option == "5":
+            get_oldest_person(items)
+        elif option == "6":
+            get_persons_closest_to_average(items)
+        elif option == "0":
+            break
+        else:
+            #raise KeyError("There is no such option.")
+            continue
+        
 def show_table(table):
     """
     Display a table
@@ -40,7 +70,17 @@ def show_table(table):
         None
     """
 
-    # your code
+    
+    print(table)    
+    
+    """with open("/home/skogmaan/lightweight-erp-python-erp-lite/hr/" + table, "r+") as imported_file:
+        one_d_persons_list = imported_file.read().splitlines()
+        global two_d_list
+        two_d_list = [[line] for line in one_d_persons_list]
+        
+        print(two_d_list)"""
+        
+
 
 
 def add(table):
@@ -53,8 +93,12 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-
-    # your code
+    
+    new_record = []
+    new_record.append(input("Type here the name of the person: "))
+    new_record.append(int(input("Type here the person's birth date: ")))
+    table.append(new_record)
+   
 
     return table
 
@@ -70,9 +114,11 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
-
-    # your code
-
+    for elem in table:
+        for i in elem:
+            if id_ in i:
+                table.remove(elem)
+    print(table)
     return table
 
 
@@ -87,9 +133,22 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
+    user_input = input("WHat do you want to change (Name / Date of Birth)? ").lower()
+    
+    if user_input == "name":
+        for elem in table:
+            if id_ in elem[0]:
+                user_text_new = input(f"Previous name: {elem[1]}.\n\nNew name: ")
+                elem[1] = user_text_new
+    elif user_input == "date of birth":
+        for elem in table:
+            if id_ in elem[0]:
+                user_text_new = input(f"Previous Date of Birth: {elem[2]}.\n\nNew Date of Birth: ")
+                elem[2] = user_text_new 
+    print(table)
 
-    # your code
-
+     
+                    
     return table
 
 
@@ -107,8 +166,21 @@ def get_oldest_person(table):
         list: A list of strings (name or names if there are two more with the same value)
     """
 
-    # your code
-
+    unsorted_list = len(table)
+    for i in range(unsorted_list):
+        for j in range(0, unsorted_list-i-1):
+            if table[j][2] > table[j+1][2]:
+                table[j], table[j+1] = table[j+1], table[j]
+    names = []
+    names.append(table[0][1])
+    for elem in table:
+        for i in range(0, len(elem)):
+            if table[i][2] == table[i + 1][2]:
+                names.append(table[i + 1][1])
+    names = list(set(names))
+               
+    return names
+    ######
 
 def get_persons_closest_to_average(table):
     """
@@ -120,5 +192,49 @@ def get_persons_closest_to_average(table):
     Returns:
         list: list of strings (name or names if there are two more with the same value)
     """
+    current_date = 2019
+    #current_date = [[date] for date in str(datetime.datetime.now())
+    people = table
+    list_for_key = []
+    list_for_value = []    
+    for elem in people:
+        #for i in range(0, len(elem)):
+        ages_key = elem[1]
+        ages_value = int(current_date) - int(elem[2])
+        list_for_key.append(ages_key)
+        list_for_value.append(ages_value)
+    names_with_ages = {key: value for (key, value) in zip(list_for_key, list_for_value)}
+    
+    sum_of_ages = 0
+    for value in names_with_ages.values():
+        sum_of_ages += value
+    average = sum_of_ages // len(names_with_ages.values())
+    counter = 0
+    closest_to_average = {key: average - value for key, value in zip(list_for_key, list_for_value)}
+    for key, value in closest_to_average.items():
+        if value < 0:
+            closest_to_average[key] = value * (-1)
+         
+    closest_to_average_list = [[key, value] for key, value in closest_to_average.items()]
+    
+    unsorted_list = len(closest_to_average_list)
+    for i in range(unsorted_list):
+        for j in range(0, unsorted_list-i-1):
+            if closest_to_average_list[j][1] > closest_to_average_list[j+1][1]:
+                closest_to_average_list[j], closest_to_average_list[j+1] = closest_to_average_list[j+1], closest_to_average_list[j]
+    print(closest_to_average_list)
+    names = []
+    names.append(closest_to_average_list[0][0])
+    for i in range(0, len(closest_to_average_list)):
+        if closest_to_average_list[i][1] == closest_to_average_list[0][1]:
+            names.append(closest_to_average_list[i][0])
+        #for i in range(0, len(elem)):
+        #    if elem[]
+    print(list(set(names)))
 
-    # your code
+
+
+
+    
+        
+  
