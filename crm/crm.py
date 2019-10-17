@@ -69,9 +69,17 @@ def start_module():
             else:
                 ui.print_error_message("Invalid ID!")
         elif option == "5":
-            get_longest_name_id(table)
+            result = get_longest_name_id(table)
+            ui.print_result(result, "The ID of the customer with the longest name.")
         elif option == "6":
-            get_subscribed_emails(table)
+            subscribers = get_subscribed_emails(table)
+            subscribers_to_print = {}
+            for item in subscribers:
+                name, email = item.split(";")
+                subscribers_to_print[email] = name
+            ui.print_result("", "The following people subsribed to the newsletter with the following e-mail addresses")
+            ui.print_result(subscribers_to_print, ["Name", "E-mail address"])
+
         elif option == "0":
             break
         else:
@@ -191,7 +199,6 @@ def get_longest_name_id(table):
 
     for lines in table:
         if lines[NAME] == max(longest_names):
-            ui.print_result(lines[ID], "The ID of the customer with the longest name.")
             return lines[ID]
 
 
@@ -210,12 +217,5 @@ def get_subscribed_emails(table):
     # common.clear()
     separator = ";"
     subscribers = [f"{line[EMAIL]}{separator}{line[NAME]}" for line in table if line[SUBSCRIBED] == "1"]
-    subscribers_to_print = {line[NAME]: line[EMAIL] for line in table if line[SUBSCRIBED] == "1"}
 
-    # subscribers_to_print = [item for item in subscribers]
-
-    # reconsider list format based on output by ui.py => revise f"" format
-    ui.print_result("", "The following people subsribed to the newsletter with the following e-mail addresses")
-    ui.print_result(subscribers_to_print,
-                    ["Name", "E-mail address"])
     return subscribers
