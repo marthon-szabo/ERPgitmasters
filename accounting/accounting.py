@@ -64,9 +64,13 @@ def start_module():
         elif option == "5":
             which_year_max(items)
         elif option == "6":
-            year = ui.get_inputs(["Please enter a year: "], "")
-            seek_year = year[0]
-            avg_amount(items, seek_year)
+            years_in_table = [item[3] for item in items]
+            while True:
+                year = ui.get_inputs(["Please enter a year: "], "")
+                seek_year = year[0]
+                if seek_year in years_in_table:
+                    avg_amount(items, seek_year)
+                    break
         elif option == "0":
             common.clear()
             break
