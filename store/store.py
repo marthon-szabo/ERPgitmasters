@@ -71,7 +71,8 @@ def start_module():
                 ui.print_error_message("Invalid ID!")
         elif option == "5":
             counts = get_counts_by_manufacturers(table)
-            ui.print_result(counts, 'Manufacturers have the following amount of games')
+            ui.print_result("Manufacturers have the following amount of games", "")
+            ui.print_result(counts, ["Manufacturers", "Number of games"])
         elif option == "6":
             "USER_INPUT"
             get_average_by_manufacturer(table, manufacturer)
@@ -120,9 +121,10 @@ def add(table):
             int(new_item[IN_STOCK])
             table.append(new_item)
             data_manager.write_table_to_file(FILE_LOCATION, table)
+            ui.print_result("Game added to database.", "Operation succeeded.")
             return table
         except ValueError:
-            ui.print_error_message("Invalid input: price and stock must be a number")
+            ui.print_error_message("Invalid input: price and stock must be a number.")
             return table
 
 
@@ -161,13 +163,13 @@ def update(table, id_):
 
     list_labels = ["Game title: ", "Manufacturer: ", "Price: ", "Number in stock: "]
     title = "Please give updated data of the game: "
-    
+
     while True:
         item = ui.get_inputs(list_labels, title)
         item.insert(ID, id_)
         try:
-            int(new_item[PRICE])
-            int(new_item[IN_STOCK])
+            int(item[PRICE])
+            int(item[IN_STOCK])
             for line in table:
                 if id_ in line:
                     line[0:] = item
@@ -175,7 +177,7 @@ def update(table, id_):
                     ui.print_result("ID with updated data in database", "Game update succeeded.")
                     return table
         except ValueError:
-            ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
+            ui.print_error_message("Invalid input: price and stock must be a number.")
             return table
 
 

@@ -115,6 +115,7 @@ def add(table):
         if new_item[SUBSCRIBED] == "1" or new_item[SUBSCRIBED] == "0":
             table.append(new_item)
             data_manager.write_table_to_file(FILE_LOCATION, table)
+            ui.print_result("Customer added to database.", "Operation succeeded.")
             return table
         else:
             ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
@@ -162,7 +163,7 @@ def update(table, id_):
             for line in table:
                 if id_ in line:
                     line[0:] = item
-                    data_manager.write_table_to_file("crm/customers.csv", table)
+                    data_manager.write_table_to_file(FILE_LOCATION, table)
                     ui.print_result("ID with updated data in database", "Customer update succeeded.")
                     return table
         else:
@@ -214,7 +215,7 @@ def get_subscribed_emails(table):
     # subscribers_to_print = [item for item in subscribers]
 
     # reconsider list format based on output by ui.py => revise f"" format
+    ui.print_result("", "The following people subsribed to the newsletter with the following e-mail addresses")
     ui.print_result(subscribers_to_print,
-                    "The following people subsribed to the newsletter with the following e-mail addresses")
-
+                    ["Name", "E-mail address"])
     return subscribers
