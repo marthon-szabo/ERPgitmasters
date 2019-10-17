@@ -97,7 +97,7 @@ def show_table(table):
     Returns:
         None
     """
-    # common.clear()
+    common.clear()
     title_list = ["ID", "name", "e-mail", "subscribed"]
     ui.print_table(table, title_list)
 
@@ -112,9 +112,7 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-
-    # your code
-    # common.clear()
+    common.clear()
     id_ = common.generate_random(table)
     list_labels = ["Customer name: ", "E-mail address: ", "Subscribed (enter 1 to if yes, 0 if not): "]
     title = "Please enter new customer data to CRM database: "
@@ -124,6 +122,7 @@ def add(table):
         if new_item[SUBSCRIBED] == "1" or new_item[SUBSCRIBED] == "0":
             table.append(new_item)
             data_manager.write_table_to_file(FILE_LOCATION, table)
+            common.clear()
             ui.print_result("Customer added to database.", "Operation succeeded.")
             return table
         else:
@@ -146,6 +145,7 @@ def remove(table, id_):
         if id_ in line:
             table.remove(line)
             data_manager.write_table_to_file(FILE_LOCATION, table)
+            common.clear()
             ui.print_result("ID no longer in database", "Customer deletion succeeded.")
             return table
 
@@ -194,7 +194,7 @@ def get_longest_name_id(table):
             string: id of the longest name (if there are more than one, return
                 the last by alphabetical order of the names)
         """
-    # common.clear()
+    common.clear()
     len_of_names = [len(lines[NAME]) for lines in table]
     longest_names = [lines[NAME] for lines in table if len(lines[NAME]) == max(len_of_names)]
 
@@ -215,7 +215,7 @@ def get_subscribed_emails(table):
         Returns:
             list: list of strings (where a string is like "email;name")
         """
-    # common.clear()
+    common.clear()
     separator = ";"
     subscribers = [f"{line[EMAIL]}{separator}{line[NAME]}" for line in table if line[SUBSCRIBED] == "1"]
 

@@ -45,6 +45,7 @@ def start_module():
                     "Get ID of lowest priced item",
                     "Get sold items between dates"]
     exit_message = "Exit to main menu"
+    common.clear()
 
     while True:
         table = data_manager.get_table_from_file(FILE_LOCATION)
@@ -77,13 +78,13 @@ def start_module():
             ui.print_result(result, "The ID of game with the lowest price: ")
         elif option == "6":
             get_dates = ui.get_inputs([
-                                        "Enter month from: ",
-                                        "Enter day from: ",
-                                        "Enter year from: ",
-                                        "Enter month until: ",
-                                        "Enter day until: ",
-                                        "Enter year until: "
-                                     ], "Get items sold between"
+                                        "from month: ",
+                                        "from day from: ",
+                                        "from year: ",
+                                        "until month: ",
+                                        "until day: ",
+                                        "until year: "
+                                     ], "Get items sold between dates as"
                                      )
             month_from, day_from, year_from, month_to, day_to, year_to = get_dates
             result = get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
@@ -108,6 +109,7 @@ def start_module():
                 line[DAY] = str(line[DAY])
             ui.print_table(result, ["ID", "Title", "Price", "Month", "Day", "Year"])
         elif option == "0":
+            common.clear()
             break
         else:
             ui.print_error_message("There is no such option.")
@@ -123,7 +125,7 @@ def show_table(table):
     Returns:
         None
     """
-
+    common.clear()
     title_list = ["ID", "Title", "Price", "Month", "Day", "Year"]
     ui.print_table(table, title_list)
 
@@ -159,6 +161,7 @@ def add(table):
                 ):
                 table.append(new_item)
                 data_manager.write_table_to_file(FILE_LOCATION, table)
+                common.clear()
                 ui.print_result("Game sale added to database.", "Operation succeeded.")
                 return table
             else:
@@ -184,6 +187,7 @@ def remove(table, id_):
         if id_ in line:
             table.remove(line)
             data_manager.write_table_to_file(FILE_LOCATION, table)
+            common.clear()
             ui.print_result(f"ID {id_} no longer in database", "Game sale deletion succeeded.")
             return table
 
@@ -220,6 +224,7 @@ def update(table, id_):
                     if id_ in line:
                         line[0:] = item
                         data_manager.write_table_to_file(FILE_LOCATION, table)
+                        common.clear()
                         ui.print_result(f"ID {id_} with updated data in database", "Game sale update succeeded.")
                         return table
             else:
@@ -259,6 +264,7 @@ def get_lowest_price_item_id(table):
             titles_with_lowest_price.append(val[0])
     for key, val in id_name_and_price.items():
         if min(titles_with_lowest_price) == val:
+            common.clear()
             return key
 
 
@@ -323,9 +329,11 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
             for line in filtered_table:
                 line[YEAR], line[DAY], line[MONTH], line[PRICE] = int(
                     line[YEAR]), int(line[DAY]), int(line[MONTH]), int(line[PRICE])
+            common.clear()
             return filtered_table
 
         except ValueError:
+            common.clear()
             ui.print_error_message("Invalid input: year, month and day must all be numbers and have valid values.")
             error_table = [["invalid input", "invalid input", "invalid input",
                             "invalid input", "invalid input", "invalid input"]]
