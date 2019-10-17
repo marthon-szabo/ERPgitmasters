@@ -121,12 +121,20 @@ def add(table):
             int(new_item[MONTH])
             int(new_item[DAY])
             int(new_item[YEAR])
-            table.append(new_item)
-            data_manager.write_table_to_file(FILE_LOCATION, table)
-            ui.print_result("Game sale added to database.", "Operation succeeded.")
-            return table
+            if (
+                int(new_item[PRICE]) >= 0
+                and int(new_item[MONTH]) >= 1 and int(new_item[MONTH]) <= 12
+                and int(new_item[DAY]) >= 1 and int(new_item[MONTH]) <= 31
+                and int(new_item[YEAR]) >= 1000 and int(new_item[YEAR]) <= 3000
+                ):
+                table.append(new_item)
+                data_manager.write_table_to_file(FILE_LOCATION, table)
+                ui.print_result("Game sale added to database.", "Operation succeeded.")
+                return table
+            else:
+                raise ValueError
         except ValueError:
-            ui.print_error_message("Invalid input: price, year, month and day must all be numbers.")
+            ui.print_error_message("Invalid input: price, year, month and day must all be numbers and have valid values.")
             return table
 
 
@@ -172,14 +180,22 @@ def update(table, id_):
             int(item[MONTH])
             int(item[DAY])
             int(item[YEAR])
-            for line in table:
-                if id_ in line:
-                    line[0:] = item
-                    data_manager.write_table_to_file(FILE_LOCATION, table)
-                    ui.print_result(f"ID {id_} with updated data in database", "Game sale update succeeded.")
-                    return table
+            if (
+                int(item[PRICE]) >= 0
+                and int(item[MONTH]) >= 1 and int(item[MONTH]) <= 12
+                and int(item[DAY]) >= 1 and int(item[MONTH]) <= 31
+                and int(item[YEAR]) >= 1000 and int(item[YEAR]) <= 3000
+                ):
+                for line in table:
+                    if id_ in line:
+                        line[0:] = item
+                        data_manager.write_table_to_file(FILE_LOCATION, table)
+                        ui.print_result(f"ID {id_} with updated data in database", "Game sale update succeeded.")
+                        return table
+            else:
+                raise ValueError
         except ValueError:
-            ui.print_error_message("Invalid input: price and stock must be a number.")
+            ui.print_error_message("Invalid input: price, year, month and day must all be numbers and have valid values.")
             return table
 
 
