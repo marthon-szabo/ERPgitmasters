@@ -249,13 +249,9 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
         list: list of lists (the filtered table)
     """
     items_sold_between = []
-    item_year = 5
-    item_month = 3
-    item_day = 4
-
     for data in table:
-        if int(data[item_month]) <= month_from and int(data[item_month]) >= month_to:
-            if int(data[item_day]) >= day_from and int(data[item_day]) <= day_to:
-                if int(data[item_year]) >= year_from and int(data[item_year]) <= year_to:
+        if int(data[YEAR]) >= year_from and int(data[YEAR]) <= year_to:
+            if int(data[MONTH]) >= month_from and int(data[MONTH]) <= month_to:
+                if int(data[DAY]) <= day_from and int(data[DAY]) >= day_to:
                     items_sold_between.append(data)
     return items_sold_between
