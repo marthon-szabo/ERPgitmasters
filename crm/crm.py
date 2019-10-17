@@ -20,6 +20,7 @@ ID = 0
 NAME = 1
 EMAIL = 2
 SUBSCRIBED = 3
+FILE_LOCATION = "crm/customers.csv"
 
 
 def start_module():
@@ -42,7 +43,7 @@ def start_module():
     exit_message = "Exit to main menu"
 
     while True:
-        table = data_manager.get_table_from_file("crm/customers.csv")
+        table = data_manager.get_table_from_file(FILE_LOCATION)
         ui.print_menu(title, list_options, exit_message)
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
@@ -91,8 +92,6 @@ def show_table(table):
     title_list = ["ID", "name", "e-mail", "subscribed"]
     ui.print_table(table, title_list)
 
-    # your code
-
 
 def add(table):
     """
@@ -115,7 +114,7 @@ def add(table):
         new_item.insert(ID, id_)
         if new_item[SUBSCRIBED] == "1" or new_item[SUBSCRIBED] == "0":
             table.append(new_item)
-            data_manager.write_table_to_file("crm/customers.csv", table)
+            data_manager.write_table_to_file(FILE_LOCATION, table)
             return table
         else:
             ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
@@ -136,7 +135,7 @@ def remove(table, id_):
     for line in table:
         if id_ in line:
             table.remove(line)
-            data_manager.write_table_to_file("crm/customers.csv", table)
+            data_manager.write_table_to_file(FILE_LOCATION, table)
             ui.print_result("ID no longer in database", "Customer deletion succeeded.")
             return table
 
@@ -155,7 +154,6 @@ def update(table, id_):
 
     list_labels = ["Customer name: ", "E-mail address: ", "Subscribed (enter 1 to if yes, 0 if not): "]
     title = "Please give updated data of the customer: "
-    #item = ui.get_inputs(list_labels, title)
     
     while True:
         item = ui.get_inputs(list_labels, title)
