@@ -5,13 +5,20 @@ implement commonly used functions here
 import random
 import string
 import os
-import string
+
 
 def id_finder(table):
     id = []
     for item in table:
         id.append(item[0])
     return id
+
+
+def manufacturer_finder(table):
+    manufacturers = []
+    for item in table:
+        manufacturers.append(item[2])
+    return manufacturers
 
 
 def generate_random(table):
@@ -28,12 +35,18 @@ def generate_random(table):
     """
     char = string.ascii_lowercase
     sym = "[!@#$%^&*()?]"
-    id_ = id_finder(table)
 
     while True:
         pswd = []
         for i in range(2):
-            pswd.extend([random.choice(char), random.choice(char.upper()), str(random.randint(0, 9)), random.choice(sym)])
+            pswd.extend(
+                        [
+                            random.choice(char),
+                            random.choice(char.upper()),
+                            str(random.randint(0, 9)),
+                            random.choice(sym)
+                        ]
+                        )
         random.shuffle(pswd)
         generated = ("".join(pswd))
 
@@ -43,14 +56,13 @@ def generate_random(table):
             return generated
 
 
-def bubble_sorting(your_list):
-    n = len(your_list)
-    for i in range(n):
-        for j in range(0, n-i-1):
-            if your_list[j] > your_list[j+1]:
-                your_list[j], your_list[j+1] = your_list[j+1], your_list[j]
-    return your_list
-
-
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def get_avrg(your_list):
+    n = len(your_list)
+    x = 0
+    for i in your_list:
+        x += i
+    return x/n

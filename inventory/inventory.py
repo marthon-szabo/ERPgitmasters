@@ -21,20 +21,22 @@ def start_module():
     Starts this module and displays its menu.
      * User can access default special features from here.
      * User can go back to main menu from here.
-
+    common.clear()
+    table = data_manager.get_table_from_file("inventory/inventory.csv")
+    existing_id = common.id_finder(table)
     Returns:
         None
     """
     common.clear()
-    table = data_manager.get_table_from_file("inventory/inventory.csv")
-    existing_id = common.id_finder(table)
     options = ["Show table",
                "Add",
                "Remove",
                "Update",
-               "Available",
+               "Available items",
                "Average durability by manufacturers"]
     while True:
+        table = data_manager.get_table_from_file("inventory/inventory.csv")
+        existing_id = common.id_finder(table)
         ui.print_menu("Inventory menu", options, "Go back to main menu")
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
@@ -58,7 +60,13 @@ def start_module():
             else:
                 ui.print_error_message("Invalid ID!")
         elif option == "5":
-            get_available_items(table, year)
+            try:
+                durability_year = ui.get_inputs(["Enter a year: "], "")
+                year = int(durability_year[0])
+                get_available_items(table, year)
+            except ValueError:
+                common.clear()
+                ui.print_error_message("Invalid year!")
         elif option == "6":
             get_average_durability_by_manufacturers(table)
         elif option == "0":
@@ -118,9 +126,9 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    for line in table:
-        if id_ in line:
-            table.remove(line)
+    for data in table:
+        if id_ in data:
+            table.remove(data)
             data_manager.write_table_to_file("inventory/inventory.csv", table)
             common.clear()
             return table
@@ -141,9 +149,9 @@ def update(table, id_):
     list_labels = ["Name: ", "Manufacturer: ", "Purchase year: ", "Durability: "]
     title = "Please give all new data: "
     item = ui.get_inputs(list_labels, title)
-    for line in table:
-        if id_ in line:
-            line[1:] = item
+    for data in table:
+        if id_ in data:
+            data[1:] = item
             data_manager.write_table_to_file("inventory/inventory.csv", table)
             common.clear()
             return table
@@ -163,7 +171,15 @@ def get_available_items(table, year):
     Returns:
         list: list of lists (the inner list contains the whole row with their actual data types)
     """
-
+    available_items = []
+    purchase_year = 3
+    durability = 4
+    for data in table:
+        data[purchase_year], data[durability] = int(data[purchase_year]), int(data[durability])
+        experation_year = data[purchase_year] + data[durability]
+        if year < experation_year:
+            available_items.append(data)
+    return available_items
 
 
 def get_average_durability_by_manufacturers(table):
@@ -177,4 +193,16 @@ def get_average_durability_by_manufacturers(table):
         dict: a dictionary with this structure: { [manufacturer] : [avg] }
     """
 
-    # your code
+    average = {}
+    manufacturer = 2
+    durability = 4
+
+    for data in table:
+        if data[manufacturer] in average.keys():
+            average[data[manufacturer]] += [int(data[durability])]
+        else:
+            average[data[manufacturer]] = [int(data[durability])]
+
+    for key, val in average.items():
+        average[key] = common.get_avrg(val)
+    return average

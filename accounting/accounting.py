@@ -64,8 +64,13 @@ def start_module():
         elif option == "5":
             which_year_max(items)
         elif option == "6":
-            seek_year = ui.get_inputs(["Please enter a year: "], "")
-            avg_amount(items, seek_year)
+            years_in_table = [item[3] for item in items]
+            while True:
+                year = ui.get_inputs(["Please enter a year: "], "")
+                seek_year = year[0]
+                if seek_year in years_in_table:
+                    avg_amount(items, seek_year)
+                    break
         elif option == "0":
             common.clear()
             break
@@ -99,15 +104,29 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-    
+    valid_types = ["in", "out"]
     id_ = common.generate_random(table)
-    list_labels = ["month ", "day ", "year ", "type ", "amount "]
+    list_labels = ["month (1-12): ", "day (1-31): ", "year (1900-3000): ", "type (\"in/out\"): ", "amount: "]
     title = "Please give all new data: "
-    item = ui.get_inputs(list_labels, title)
+    while True:
+        item = ui.get_inputs(list_labels, title)
+        valid_month = item[0].isnumeric() and int(item[0]) in range(1, 13)
+        valid_day = item[1].isnumeric() and int(item[1]) in range(1, 32)
+        valid_year = (item[2].isnumeric() and int(item[2]) in range(1900, 3001))
+        valid_type = item[3] in valid_types
+        valid_amount = item[4].isnumeric()
+        valid = [valid_month, valid_day, valid_year, valid_type, valid_amount]
+        if all(valid):
+            break
+        else:
+            ui.print_error_message("Please check your data.")   
     item.insert(0, id_)
     table.append(item)
     data_manager.write_table_to_file("accounting/items.csv", table)
     common.clear()
+    label = ("The data have been added to the table under this id:")
+    result = id_ 
+    ui.print_result(result, label)
     return table
 
 
@@ -128,6 +147,9 @@ def remove(table, id_):
             table.remove(item)
             data_manager.write_table_to_file("accounting/items.csv", table)
             common.clear()
+            label = ("The data under the following id have been removed from the table:")
+            result = id_ 
+            ui.print_result(result, label)
             return table
     ui.print_error_message("There is no such item in the list.")
 
@@ -143,14 +165,29 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
-    list_labels = ["month ", "day ", "year ", "type ", "amount "]
+    valid_types = ["in", "out"]
+    list_labels = ["month (1-12): ", "day (1-31): ", "year (1900-3000): ", "type (\"in/out\"): ", "amount: "]
     title = "Please give all new data: "
-    item = ui.get_inputs(list_labels, title)
+    while True:
+        item = ui.get_inputs(list_labels, title)
+        valid_month = item[0].isnumeric() and int(item[0]) in range(1, 13)
+        valid_day = item[1].isnumeric() and int(item[1]) in range(1, 32)
+        valid_year = item[2].isnumeric() and int(item[2]) in range(1900, 3001)
+        valid_type = item[3] in valid_types
+        valid_amount = item[4].isnumeric()
+        valid = [valid_month, valid_day, valid_year, valid_type, valid_amount]
+        if all(valid):
+            break
+        else:
+            ui.print_error_message("Please check your data.")
     item.insert(0, id_)
     for element in table:
         if element[0] == id_:
             element[0:] = item
             data_manager.write_table_to_file("accounting/items.csv", table)
+            label = ("The data under the following id have been updated:")
+            result = id_ 
+            ui.print_result(result, label)
             return table
     ui.print_error_message("There is no such item in the list.")
 
@@ -168,7 +205,12 @@ def which_year_max(table):
     Returns:
         number
     """
-    year_prof = {}
+    years = list(set([item[3] for item in table]))
+    amounts = []
+    for i in range(len(years)):
+        amounts.append(0)
+    
+    year_prof = dict(zip(years, amounts))
     
     for item in table:
         if item[3] in year_prof:    
@@ -178,13 +220,10 @@ def which_year_max(table):
                 year_prof[item[3]] = year_prof[item[3]] - int(item[5])
         else:
             year_prof[item[3]] = 1
-    print(year_prof.items())
-    
-    
-    
-    
-
-    
+    result = int(max(year_prof, key=year_prof.get))
+    label = "The following year has the highest profit:"
+    ui.print_result(result, label)
+    return result
 
 
 def avg_amount(table, year):
@@ -198,5 +237,21 @@ def avg_amount(table, year):
     Returns:
         number
     """
-
-    # your code
+    
+    amounts = []
+    for item in table:
+        if str(item[3]) == str(year):
+            if item[4] == "in":
+                amounts.append(str("+"+item[5]))
+            elif item[4] == "out":
+                amounts.append(str("-"+item[5]))
+    for i in range(len(amounts)):
+        amounts[i] = int(amounts[i])
+    result_base = 0
+    items_count = len(amounts)
+    for amount in amounts:
+        result_base += amount
+    result = result_base/items_count
+    label = (f"The average profit (per item) in the year {year} is:")
+    ui.print_result(result, label)
+    return result

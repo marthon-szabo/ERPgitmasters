@@ -20,6 +20,7 @@ ID = 0
 NAME = 1
 EMAIL = 2
 SUBSCRIBED = 3
+FILE_LOCATION = "crm/customers.csv"
 
 
 def start_module():
@@ -42,7 +43,7 @@ def start_module():
     exit_message = "Exit to main menu"
 
     while True:
-        table = data_manager.get_table_from_file("crm/customers.csv")
+        table = data_manager.get_table_from_file(FILE_LOCATION)
         ui.print_menu(title, list_options, exit_message)
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
@@ -68,9 +69,17 @@ def start_module():
             else:
                 ui.print_error_message("Invalid ID!")
         elif option == "5":
-            get_longest_name_id(table)
+            result = get_longest_name_id(table)
+            ui.print_result(result, "The ID of the customer with the longest name.")
         elif option == "6":
-            get_subscribed_emails(table)
+            subscribers = get_subscribed_emails(table)
+            subscribers_to_print = {}
+            for item in subscribers:
+                name, email = item.split(";")
+                subscribers_to_print[email] = name
+            ui.print_result("", "The following people subsribed to the newsletter with the following e-mail addresses")
+            ui.print_result(subscribers_to_print, ["Name", "E-mail address"])
+
         elif option == "0":
             break
         else:
@@ -90,8 +99,6 @@ def show_table(table):
     # common.clear()
     title_list = ["ID", "name", "e-mail", "subscribed"]
     ui.print_table(table, title_list)
-
-    # your code
 
 
 def add(table):
@@ -115,7 +122,8 @@ def add(table):
         new_item.insert(ID, id_)
         if new_item[SUBSCRIBED] == "1" or new_item[SUBSCRIBED] == "0":
             table.append(new_item)
-            data_manager.write_table_to_file("crm/customers.csv", table)
+            data_manager.write_table_to_file(FILE_LOCATION, table)
+            ui.print_result("Customer added to database.", "Operation succeeded.")
             return table
         else:
             ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
@@ -136,7 +144,7 @@ def remove(table, id_):
     for line in table:
         if id_ in line:
             table.remove(line)
-            data_manager.write_table_to_file("crm/customers.csv", table)
+            data_manager.write_table_to_file(FILE_LOCATION, table)
             ui.print_result("ID no longer in database", "Customer deletion succeeded.")
             return table
 
@@ -155,8 +163,7 @@ def update(table, id_):
 
     list_labels = ["Customer name: ", "E-mail address: ", "Subscribed (enter 1 to if yes, 0 if not): "]
     title = "Please give updated data of the customer: "
-    #item = ui.get_inputs(list_labels, title)
-    
+
     while True:
         item = ui.get_inputs(list_labels, title)
         item.insert(ID, id_)
@@ -164,7 +171,7 @@ def update(table, id_):
             for line in table:
                 if id_ in line:
                     line[0:] = item
-                    data_manager.write_table_to_file("crm/customers.csv", table)
+                    data_manager.write_table_to_file(FILE_LOCATION, table)
                     ui.print_result("ID with updated data in database", "Customer update succeeded.")
                     return table
         else:
@@ -192,7 +199,6 @@ def get_longest_name_id(table):
 
     for lines in table:
         if lines[NAME] == max(longest_names):
-            ui.print_result(lines[ID], "The ID of the customer with the longest name.")
             return lines[ID]
 
 
@@ -211,12 +217,5 @@ def get_subscribed_emails(table):
     # common.clear()
     separator = ";"
     subscribers = [f"{line[EMAIL]}{separator}{line[NAME]}" for line in table if line[SUBSCRIBED] == "1"]
-    subscribers_to_print = {line[NAME]: line[EMAIL] for line in table if line[SUBSCRIBED] == "1"}
-
-    # subscribers_to_print = [item for item in subscribers]
-
-    # reconsider list format based on output by ui.py => revise f"" format
-    ui.print_result(subscribers_to_print,
-                    "The following people subsribed to the newsletter with the following e-mail addresses")
 
     return subscribers

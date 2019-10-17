@@ -105,14 +105,20 @@ def print_result(result, label):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-    print(label)
+
     if type(result) is list:
+        print(label)
         for line in result:
             print(line)
+        # print_table(result, label)
     elif type(result) is dict:
+        converted_dict = []
         for k, v in result.items():
-            print(f"{k}: {v}")
+            temp = [k, str(v)]
+            converted_dict.append(temp)
+        print_table(converted_dict, label)
     else:
+        print(label)
         print(result)
 
 
@@ -142,8 +148,6 @@ def print_menu(title, list_options, exit_message):
     for i in range(len(list_options)):
         print("{}. {}".format(i+1, list_options[i]))
     print("0. {}".format(exit_message))
-
-    # your code
 
 
 def get_inputs(list_labels, title):
