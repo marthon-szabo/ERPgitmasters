@@ -32,7 +32,7 @@ def start_module():
     Returns:
         None
     """
-
+    common.clear()
     title = "Customer Relationship Management (CRM)"
     list_options = ["Show all customers and data",
                     "Add a new customer",
@@ -81,6 +81,7 @@ def start_module():
             ui.print_result(subscribers_to_print, ["Name", "E-mail address"])
 
         elif option == "0":
+            common.clear()
             break
         else:
             ui.print_error_message("There is no such option.")
