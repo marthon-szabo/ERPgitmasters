@@ -37,8 +37,6 @@ def start_module():
         None
     """
 
-<<<<<<< HEAD
-=======
     title = "SALES"
     list_options = ["Show all game sales data",
                     "Add a new game sale",
@@ -84,7 +82,6 @@ def start_module():
         else:
             ui.print_error_message("There is no such option.")
 
->>>>>>> 12934ee1511dbff8b090a0a9b00e8ada7773ed19
 
 def show_table(table):
     """
@@ -253,5 +250,5 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     """
 
     # your code
-items_sold_between = []
-start_day = 
+    items_sold_between = []
+    start_day = 0
