@@ -28,7 +28,6 @@ def print_table(table, title_list):
     column_num = 0
     length = []
 
-    
     for number in range(len(title_list)):
         columns.append([])
         columns[column_num].append(title_list[column_num])
@@ -106,7 +105,7 @@ def print_result(result, label):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-    
+
     if type(result) is list:
         print(label)
         for line in result:

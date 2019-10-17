@@ -5,7 +5,6 @@ implement commonly used functions here
 import random
 import string
 import os
-import string
 
 
 def id_finder(table):
@@ -14,11 +13,13 @@ def id_finder(table):
         id.append(item[0])
     return id
 
+
 def manufacturer_finder(table):
     manufacturers = []
     for item in table:
         manufacturers.append(item[2])
     return manufacturers
+
 
 def generate_random(table):
     """
@@ -38,7 +39,14 @@ def generate_random(table):
     while True:
         pswd = []
         for i in range(2):
-            pswd.extend([random.choice(char), random.choice(char.upper()), str(random.randint(0, 9)), random.choice(sym)])
+            pswd.extend(
+                        [
+                            random.choice(char),
+                            random.choice(char.upper()),
+                            str(random.randint(0, 9)),
+                            random.choice(sym)
+                        ]
+                        )
         random.shuffle(pswd)
         generated = ("".join(pswd))
 
