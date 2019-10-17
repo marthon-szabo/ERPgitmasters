@@ -24,6 +24,7 @@ PRICE = 3
 IN_STOCK = 4
 FILE_LOCATION = "store/games.csv"
 
+
 def start_module():
     """
     Starts this module and displays its menu.
