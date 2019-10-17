@@ -24,6 +24,75 @@ def print_table(table, title_list):
 
     # your goes code
 
+    columns = []
+    column_num = 0
+    length = []
+
+    for number in range(len(title_list)):
+        columns.append([])
+        columns[column_num].append(title_list[column_num])
+        for row in table:
+            columns[column_num].append(row[column_num])
+        column_num += 1
+
+    for database in columns:
+        n = len(database)
+        for i in range(n):
+            for j in range(0, n-i-1):
+                if len(database[j]) < len(database[j+1]):
+                    database[j], database[j+1] = database[j+1], database[j]
+
+    for item in columns:
+        for k, item in enumerate(item):
+            if k == 0:
+                length.append(len(item))
+
+    start_header = "/"
+    end_header = "\\"
+    separator = "|"
+    divisor_line = "-"
+    padding = 2
+    sum = 0
+
+    for element in length:
+        sum += element
+
+    def print_separator(length):
+        print(separator, end="")
+        for i, element in enumerate(length):
+            print(f"{divisor_line * (length[i] + len(str(padding)) + 1)}", end="")
+            print(separator, end="")
+        print()
+
+    # HEADER
+    print(
+        (start_header)
+        + (divisor_line * (sum + (padding * len(length)) + (len(separator) * len(length)) - 1))
+        + (end_header))
+
+    # TITLES
+    print(separator, end="")
+    for i, element in enumerate(title_list):
+        print(f"{element.center(length[i] + padding)}", end="")
+        print(separator, end="")
+    print()
+
+    # Separator
+    for lines in table:
+        print_separator(length)
+
+        print(separator, end="")
+        for i, element in enumerate(lines):
+            print(f"{element.center(length[i] + padding)}", end="")
+            print(separator, end="")
+        print()
+
+    # FOOTER
+    print(
+        (end_header)
+        + (divisor_line * (sum + (padding * len(length)) + (len(separator) * len(length)) - 1))
+        + (start_header))
+
 
 def print_result(result, label):
     """
@@ -36,8 +105,15 @@ def print_result(result, label):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-
-    # your code
+    print(label)
+    if type(result) is list:
+        for line in result:
+            print(line)
+    elif type(result) is dict:
+        for k, v in result.items():
+            print(f"{k}: {v}")
+    else:
+        print(result)
 
 
 def print_menu(title, list_options, exit_message):
@@ -66,7 +142,7 @@ def print_menu(title, list_options, exit_message):
     for i in range(len(list_options)):
         print("{}. {}".format(i+1, list_options[i]))
     print("0. {}".format(exit_message))
-    
+
     # your code
 
 
@@ -93,7 +169,7 @@ def get_inputs(list_labels, title):
     print(title)
     for i in range(len(list_labels)):
         inputs.append(input(list_labels[i]))
-    
+
     return inputs
 
 
@@ -108,4 +184,4 @@ def print_error_message(message):
         None: This function doesn't return anything it only prints to console.
     """
 
-    # your code
+    print(f"Error: {message}")

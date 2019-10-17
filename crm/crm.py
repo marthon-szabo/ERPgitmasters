@@ -16,6 +16,11 @@ import data_manager
 # common module
 import common
 
+ID = 0
+NAME = 1
+EMAIL = 2
+SUBSCRIBED = 3
+
 
 def start_module():
     """
@@ -27,7 +32,49 @@ def start_module():
         None
     """
 
-    # your code
+    title = "Customer Relationship Management (CRM)"
+    list_options = ["Show all customers and data",
+                    "Add a new customer",
+                    "Remove a customer",
+                    "Update a customer's data",
+                    "Get ID of the customer with the longest name",
+                    "Get e-mail subscriber customers"]
+    exit_message = "Exit to main menu"
+
+    while True:
+        table = data_manager.get_table_from_file("crm/customers.csv")
+        ui.print_menu(title, list_options, exit_message)
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+
+        if option == "1":
+            show_table(table)
+        elif option == "2":
+            table = add(table)
+        elif option == "3":
+            ids_we_have = common.id_finder(table)
+            remove_record = ui.get_inputs(["Enter ID of customer to be deleted: "], "")
+            remove_id = remove_record[ID]
+            if remove_id in ids_we_have:
+                table = remove(table, remove_id)
+            else:
+                ui.print_error_message("Invalid ID!")
+        elif option == "4":
+            ids_we_have = common.id_finder(table)
+            update_record = ui.get_inputs(["Enter ID of customer to be updated: "], "")
+            update_id = update_record[ID]
+            if update_id in ids_we_have:
+                table = update(table, update_id)
+            else:
+                ui.print_error_message("Invalid ID!")
+        elif option == "5":
+            get_longest_name_id(table)
+        elif option == "6":
+            get_subscribed_emails(table)
+        elif option == "0":
+            break
+        else:
+            ui.print_error_message("There is no such option.")
 
 
 def show_table(table):
@@ -40,6 +87,9 @@ def show_table(table):
     Returns:
         None
     """
+    # common.clear()
+    title_list = ["ID", "name", "e-mail", "subscribed"]
+    ui.print_table(table, title_list)
 
     # your code
 
@@ -56,8 +106,20 @@ def add(table):
     """
 
     # your code
-
-    return table
+    # common.clear()
+    id_ = common.generate_random(table)
+    list_labels = ["Customer name: ", "E-mail address: ", "Subscribed (enter 1 to if yes, 0 if not): "]
+    title = "Please enter new customer data to CRM database: "
+    while True:
+        new_item = ui.get_inputs(list_labels, title)
+        new_item.insert(ID, id_)
+        if new_item[SUBSCRIBED] == "1" or new_item[SUBSCRIBED] == "0":
+            table.append(new_item)
+            data_manager.write_table_to_file("crm/customers.csv", table)
+            return table
+        else:
+            ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
+            return table
 
 
 def remove(table, id_):
@@ -71,10 +133,12 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
-
-    # your code
-
-    return table
+    for line in table:
+        if id_ in line:
+            table.remove(line)
+            data_manager.write_table_to_file("crm/customers.csv", table)
+            ui.print_result("ID no longer in database", "Customer deletion succeeded.")
+            return table
 
 
 def update(table, id_):
@@ -89,9 +153,23 @@ def update(table, id_):
         list: table with updated record
     """
 
-    # your code
-
-    return table
+    list_labels = ["Customer name: ", "E-mail address: ", "Subscribed (enter 1 to if yes, 0 if not): "]
+    title = "Please give updated data of the customer: "
+    #item = ui.get_inputs(list_labels, title)
+    
+    while True:
+        item = ui.get_inputs(list_labels, title)
+        item.insert(ID, id_)
+        if item[SUBSCRIBED] == "1" or item[SUBSCRIBED] == "0":
+            for line in table:
+                if id_ in line:
+                    line[0:] = item
+                    data_manager.write_table_to_file("crm/customers.csv", table)
+                    ui.print_result("ID with updated data in database", "Customer update succeeded.")
+                    return table
+        else:
+            ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
+            return table
 
 
 # special functions:
@@ -108,8 +186,14 @@ def get_longest_name_id(table):
             string: id of the longest name (if there are more than one, return
                 the last by alphabetical order of the names)
         """
+    # common.clear()
+    len_of_names = [len(lines[NAME]) for lines in table]
+    longest_names = [lines[NAME] for lines in table if len(lines[NAME]) == max(len_of_names)]
 
-    # your code
+    for lines in table:
+        if lines[NAME] == max(longest_names):
+            ui.print_result(lines[ID], "The ID of the customer with the longest name.")
+            return lines[ID]
 
 
 # the question: Which customers has subscribed to the newsletter?
@@ -124,5 +208,15 @@ def get_subscribed_emails(table):
         Returns:
             list: list of strings (where a string is like "email;name")
         """
+    # common.clear()
+    separator = ";"
+    subscribers = [f"{line[EMAIL]}{separator}{line[NAME]}" for line in table if line[SUBSCRIBED] == "1"]
+    subscribers_to_print = {line[NAME]: line[EMAIL] for line in table if line[SUBSCRIBED] == "1"}
 
-    # your code
+    # subscribers_to_print = [item for item in subscribers]
+
+    # reconsider list format based on output by ui.py => revise f"" format
+    ui.print_result(subscribers_to_print,
+                    "The following people subsribed to the newsletter with the following e-mail addresses")
+
+    return subscribers

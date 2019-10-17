@@ -3,6 +3,15 @@ implement commonly used functions here
 """
 
 import random
+import string
+import os
+import string
+
+def id_finder(table):
+    id = []
+    for item in table:
+        id.append(item[0])
+    return id
 
 
 def generate_random(table):
@@ -17,9 +26,31 @@ def generate_random(table):
     Returns:
         string: Random and unique string
     """
+    char = string.ascii_lowercase
+    sym = "[!@#$%^&*()?]"
+    id_ = id_finder(table)
 
-    generated = ''
+    while True:
+        pswd = []
+        for i in range(2):
+            pswd.extend([random.choice(char), random.choice(char.upper()), str(random.randint(0, 9)), random.choice(sym)])
+        random.shuffle(pswd)
+        generated = ("".join(pswd))
 
-    # your code
+        if generated in id_finder(table):
+            continue
+        else:
+            return generated
 
-    return generated
+
+def bubble_sorting(your_list):
+    n = len(your_list)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if your_list[j] > your_list[j+1]:
+                your_list[j], your_list[j+1] = your_list[j+1], your_list[j]
+    return your_list
+
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
