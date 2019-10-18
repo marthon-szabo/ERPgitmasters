@@ -6,7 +6,6 @@ Data table structure:
     * name (string)
     * birth_year (number)
 """
-import datetime
 # everything you'll need is imported:
 # User interface module
 import ui
@@ -27,6 +26,7 @@ def start_module():
         None
     """
     
+    common.clear()
     options = ["Show table",
                     "Add",
                     "Remove",
@@ -69,9 +69,11 @@ def show_table(table):
     Returns:
         None
     """
-
+    common.clear()
+    list_labels = ["Id", "Name", "Year of birth"]
+    ui.print_table(items, list_labels)
     
-    print(table)    
+      
     
     
     
@@ -89,14 +91,16 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-    
-    new_record = []
-    new_record.append(input("Type here the name of the person: "))
-    new_record.append(int(input("Type here the person's birth date: ")))
-    table.append(new_record)
-   
-
-    data_manager.write_table_to_file("hr/persons.csv", table)  
+    id_ = common.generate_random(table)
+    list_labels = ["Type here the name of the person: ", "Type here the person's birth date: "]
+    title = "Please give all new data: "
+    item = ui.get_inputs(list_labels, title)
+    item.insert(0, id_)
+    table.append(item)
+    common.clear()
+    data_manager.write_table_to_file("hr/persons.csv", table)
+    result = id_ 
+    #ui.print_result(result, label)  
     return table
 
 
@@ -111,12 +115,29 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
-    for elem in table:
-        for i in elem:
-            if id_ in i:
-                table.remove(elem)
-    data_manager.write_table_to_file("hr/persons.csv", table)  
-    return table
+    for item in table:
+        if item[0] == id_:
+            table.remove(item)
+            data_manager.write_table_to_file("accounting/items.csv", table)
+            common.clear()
+            label = ("The data under the following id have been removed from the table:")
+            result = id_ 
+            ui.print_result(result, label)
+            return table
+
+
+    
+  # for elem in table:
+   #     for i in elem:
+    #        if str(id_) in i:
+     #           table.remove(i)
+      #          data_manager.write_table_to_file("hr/persons.csv", table) 
+    #common.clear()
+    #label = ("The data under the following id have been removed from the table:")
+    #result = id_ 
+    #ui.print_result(result, label)
+    #return table
+    
 
 
 def update(table, id_):
@@ -130,12 +151,14 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
-    user_input = input("WHat do you want to change (Name / Date of Birth)? ").lower()
+    list_labels = ["WHat do you want to change (Name / Date of Birth)? "]
+    title = "Please give all new data: "
+    user_input = ui.get_inputs(list_labels, title)
     
     if user_input == "name":
         for elem in table:
             if id_ in elem[0]:
-                user_text_new = input(f"Previous name: {elem[1]}.\n\nNew name: ")
+                user_text_new = ui.get_inputs()(f"Previous name: {elem[1]}.\n\nNew name: ")
                 elem[1] = user_text_new
     elif user_input == "date of birth":
         for elem in table:
@@ -159,6 +182,7 @@ def get_oldest_person(table):
     Returns:
         list: A list of strings (name or names if there are two more with the same value)
     """
+    people = table
 
     unsorted_list = len(table)
     for i in range(unsorted_list):
@@ -186,15 +210,15 @@ def get_persons_closest_to_average(table):
     Returns:
         list: list of strings (name or names if there are two more with the same value)
     """
-    current_date = 2019
-    #current_date = [[date] for date in str(datetime.datetime.now())
+    
+    
     people = table
     list_for_key = []
     list_for_value = []    
     for elem in people:
         #for i in range(0, len(elem)):
         ages_key = elem[1]
-        ages_value = int(current_date) - int(elem[2])
+        ages_value = elem[2]
         list_for_key.append(ages_key)
         list_for_value.append(ages_value)
     names_with_ages = {key: value for (key, value) in zip(list_for_key, list_for_value)}
