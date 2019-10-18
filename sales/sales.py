@@ -224,7 +224,6 @@ def update(table, id_):
                     if id_ in line:
                         line[0:] = item
                         data_manager.write_table_to_file(FILE_LOCATION, table)
-                        common.clear()
                         ui.print_result(f"ID {id_} with updated data in database", "Game sale update succeeded.")
                         return table
             else:
@@ -264,7 +263,6 @@ def get_lowest_price_item_id(table):
             titles_with_lowest_price.append(val[0])
     for key, val in id_name_and_price.items():
         if min(titles_with_lowest_price) == val:
-            common.clear()
             return key
 
 
@@ -329,11 +327,9 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
             for line in filtered_table:
                 line[YEAR], line[DAY], line[MONTH], line[PRICE] = int(
                     line[YEAR]), int(line[DAY]), int(line[MONTH]), int(line[PRICE])
-            common.clear()
             return filtered_table
 
         except ValueError:
-            common.clear()
             ui.print_error_message("Invalid input: year, month and day must all be numbers and have valid values.")
             error_table = [["invalid input", "invalid input", "invalid input",
                             "invalid input", "invalid input", "invalid input"]]

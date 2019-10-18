@@ -194,7 +194,6 @@ def get_longest_name_id(table):
             string: id of the longest name (if there are more than one, return
                 the last by alphabetical order of the names)
         """
-    common.clear()
     len_of_names = [len(lines[NAME]) for lines in table]
     longest_names = [lines[NAME] for lines in table if len(lines[NAME]) == max(len_of_names)]
 
@@ -215,7 +214,6 @@ def get_subscribed_emails(table):
         Returns:
             list: list of strings (where a string is like "email;name")
         """
-    common.clear()
     separator = ";"
     subscribers = [f"{line[EMAIL]}{separator}{line[NAME]}" for line in table if line[SUBSCRIBED] == "1"]
 
