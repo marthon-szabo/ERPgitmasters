@@ -19,12 +19,13 @@ import data_manager
 # common module
 import common
 
-ID = 0
+SALE_ID = 0
 TITLE = 1
 PRICE = 2
 MONTH = 3
 DAY = 4
 YEAR = 5
+CUSTOMER_ID = 6
 FILE_LOCATION = "sales/sales.csv"
 
 
@@ -43,12 +44,12 @@ def start_module():
                     "Add a new game sale",
                     "Remove a game sale",
                     "Update a game sale's data",
-                    "Get ID of lowest priced item",
+                    "Get Sale ID of lowest priced item",
                     "Get sold items between dates",
-                    "Get title by ID",
-                    "Get title by ID from table",
-                    "Get item ID sold last",
-                    "Get item ID sold last from table",
+                    "Get title by Sale ID",
+                    "Get title by Sale ID from table",
+                    "Get item Sale ID sold last",
+                    "Get item Sale ID sold last from table",
                     "Get item title sold last from table",
                     "Get the sum of prices from table"]
     exit_message = "Exit to main menu"
@@ -67,23 +68,23 @@ def start_module():
             table = add(table)
         elif option == "3":
             ids_we_have = common.id_finder(table)
-            remove_record = ui.get_inputs(["Enter ID of game to be deleted: "], "")
-            remove_id = remove_record[ID]
+            remove_record = ui.get_inputs(["Enter SALE_ID of game to be deleted: "], "")
+            remove_id = remove_record[SALE_ID]
             if remove_id in ids_we_have:
                 table = remove(table, remove_id)
             else:
-                ui.print_error_message("Invalid ID!")
+                ui.print_error_message("Invalid SALE_ID!")
         elif option == "4":
             ids_we_have = common.id_finder(table)
-            update_record = ui.get_inputs(["Enter ID of game to be updated: "], "")
-            update_id = update_record[ID]
+            update_record = ui.get_inputs(["Enter SALE_ID of game to be updated: "], "")
+            update_id = update_record[SALE_ID]
             if update_id in ids_we_have:
                 table = update(table, update_id)
             else:
-                ui.print_error_message("Invalid ID!")
+                ui.print_error_message("Invalid SALE_ID!")
         elif option == "5":
             result = get_lowest_price_item_id(table)
-            ui.print_result(result, "The ID of game with the lowest price: ")
+            ui.print_result(result, "The SALE_ID of game with the lowest price: ")
         elif option == "6":
             get_dates = ui.get_inputs([
                                         "from month: ",
@@ -115,16 +116,16 @@ def start_module():
                 line[YEAR] = str(line[YEAR])
                 line[MONTH] = str(line[MONTH])
                 line[DAY] = str(line[DAY])
-            ui.print_table(result, ["ID", "Title", "Price", "Month", "Day", "Year"])
+            ui.print_table(result, ["SALE_ID", "Title", "Price", "Month", "Day", "Year"])
         elif option == "7":
-            title_id = ui.get_inputs(["Enter an ID: "], "")
+            title_id = ui.get_inputs(["Enter an SALE_ID: "], "")
             id_ = title_id[0]
             if id_ in existing_id:
                 get_title_by_id(id_)
             else:
                 return None
         elif option == "8":
-            title_id = ui.get_inputs(["Enter an ID: "], "")
+            title_id = ui.get_inputs(["Enter an SALE_ID: "], "")
             id_ = title_id[0]
             if id_ in existing_id:
                 get_title_by_id_from_table(id_, table)
@@ -142,6 +143,13 @@ def start_module():
         elif option == "13":
             item_ids = [data[0] for data in table]
             get_the_sum_of_prices_from_table(table, item_ids)
+        elif option == "14":
+            get_sale_id = ui.get_inputs(["Enter an SALE_ID: "], "")
+            sale_id = title_id[0]
+            if sale_id in existing_id:
+                get_customer_id_by_sale_id(sale_id)
+            else:
+                return None
         elif option == "0":
             common.clear()
             break
@@ -161,7 +169,7 @@ def show_table(table):
         None
     """
     common.clear()
-    title_list = ["ID", "Title", "Price", "Month", "Day", "Year"]
+    title_list = ["SALE_ID", "Title", "Price", "Month", "Day", "Year"]
     ui.print_table(table, title_list)
 
     # your code
@@ -184,7 +192,7 @@ def add(table):
 
     while True:
         new_item = ui.get_inputs(list_labels, title)
-        new_item.insert(ID, id_)
+        new_item.insert(SALE_ID, id_)
         try:
             int(new_item[PRICE])
             int(new_item[MONTH])
@@ -228,7 +236,7 @@ def remove(table, id_):
             table.remove(line)
             data_manager.write_table_to_file(FILE_LOCATION, table)
             common.clear()
-            ui.print_result(f"ID {id_} no longer in database", "Game sale deletion succeeded.")
+            ui.print_result(f"SALE_ID {id_} no longer in database", "Game sale deletion succeeded.")
             return table
     # your code
 
@@ -251,7 +259,7 @@ def update(table, id_):
 
     while True:
         item = ui.get_inputs(list_labels, title)
-        item.insert(ID, id_)
+        item.insert(SALE_ID, id_)
         try:
             int(item[PRICE])
             int(item[MONTH])
@@ -267,7 +275,7 @@ def update(table, id_):
                     if id_ in line:
                         line[0:] = item
                         data_manager.write_table_to_file(FILE_LOCATION, table)
-                        ui.print_result(f"ID {id_} with updated data in database", "Game sale update succeeded.")
+                        ui.print_result(f"SALE_ID {id_} with updated data in database", "Game sale update succeeded.")
                         return table
             else:
                 raise ValueError
@@ -403,7 +411,7 @@ def get_title_by_id(id):
     """
     table = data_manager.get_table_from_file(FILE_LOCATION)
     for data in table:
-        if id == data[ID]:
+        if id == data[SALE_ID]:
             return data[TITLE]
 
 
@@ -420,7 +428,7 @@ def get_title_by_id_from_table(table, id):
         str: the title of the item
     """
     for data in table:
-        if id == data[ID]:
+        if id == data[SALE_ID]:
             return data[TITLE]
 
 
@@ -435,7 +443,7 @@ def get_item_id_sold_last():
     table = data_manager.get_table_from_file(FILE_LOCATION)
     all_id = []
     for data in table:
-        all_id.append(data[ID])
+        all_id.append(data[SALE_ID])
     _id_ = all_id[0]
     return _id_
 
@@ -452,7 +460,7 @@ def get_item_id_sold_last_from_table(table):
     """
     all_id = []
     for data in table:
-        all_id.append(data[ID])
+        all_id.append(data[SALE_ID])
     _id_ = all_id[0]
     return _id_
     # your code
@@ -528,7 +536,10 @@ def get_customer_id_by_sale_id(sale_id):
     Returns:
          str: customer_id that belongs to the given sale id
     """
-
+    table = data_manager.get_table_from_file(FILE_LOCATION)
+    for data in table:
+        if sale_id == data[SALE_ID]:
+            return data[CUSTOMER_ID]
     # your code
 
 
