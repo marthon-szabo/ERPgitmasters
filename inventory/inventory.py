@@ -1,4 +1,5 @@
 """ Inventory module
+
 Data table structure:
     * id (string): Unique and random generated identifier
         at least 2 special characters (except: ';'), 2 number, 2 lower and 2 upper case letters)
@@ -7,6 +8,7 @@ Data table structure:
     * purchase_year (number): Year of purchase
     * durability (number): Years it can be used
 """
+
 # everything you'll need is imported:
 # User interface module
 import ui
@@ -76,6 +78,12 @@ def start_module():
             common.clear()
             raise KeyError("There is no such option.")
 
+    Returns:
+        None
+    """
+
+    # your code
+
 
 def show_table(table):
     """
@@ -90,6 +98,8 @@ def show_table(table):
     common.clear()
     title_list = ["ID", "Name", "Manufacturer", "Purchase year", "Durability"]
     ui.print_table(table, title_list)
+
+    # your code
 
 
 def add(table):
@@ -111,6 +121,8 @@ def add(table):
     table.append(item)
     data_manager.write_table_to_file("inventory/inventory.csv", table)
     common.clear()
+    # your code
+
     return table
 
 
@@ -132,6 +144,9 @@ def remove(table, id_):
             data_manager.write_table_to_file("inventory/inventory.csv", table)
             common.clear()
             return table
+    # your code
+
+    return table
 
 
 def update(table, id_):
@@ -155,6 +170,9 @@ def update(table, id_):
             data_manager.write_table_to_file("inventory/inventory.csv", table)
             common.clear()
             return table
+    # your code
+
+    return table
 
 
 # special functions:
@@ -167,6 +185,12 @@ def get_available_items(table, year):
     Args:
         table (list): data table to work on
         year (number)
+def get_available_items(table):
+    """
+    Question: Which items have not exceeded their durability yet?
+
+    Args:
+        table (list): data table to work on
 
     Returns:
         list: list of lists (the inner list contains the whole row with their actual data types)
@@ -180,6 +204,8 @@ def get_available_items(table, year):
         if year < experation_year:
             available_items.append(data)
     return available_items
+
+    # your code
 
 
 def get_average_durability_by_manufacturers(table):
@@ -206,3 +232,4 @@ def get_average_durability_by_manufacturers(table):
     for key, val in average.items():
         average[key] = common.get_avrg(val)
     return average
+    # your code

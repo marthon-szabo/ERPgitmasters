@@ -86,6 +86,8 @@ def start_module():
         else:
             ui.print_error_message("There is no such option.")
 
+    # your code
+
 
 def show_table(table):
     """
@@ -100,6 +102,8 @@ def show_table(table):
     common.clear()
     title_list = ["ID", "name", "e-mail", "subscribed"]
     ui.print_table(table, title_list)
+
+    # your code
 
 
 def add(table):
@@ -129,6 +133,10 @@ def add(table):
             ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
             return table
 
+    # your code
+
+    return table
+
 
 def remove(table, id_):
     """
@@ -148,6 +156,10 @@ def remove(table, id_):
             common.clear()
             ui.print_result("ID no longer in database", "Customer deletion succeeded.")
             return table
+
+    # your code
+
+    return table
 
 
 def update(table, id_):
@@ -178,6 +190,9 @@ def update(table, id_):
         else:
             ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
             return table
+    # your code
+
+    return table
 
 
 # special functions:
@@ -201,6 +216,8 @@ def get_longest_name_id(table):
         if lines[NAME] == max(longest_names):
             return lines[ID]
 
+    # your code
+
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")
@@ -218,3 +235,40 @@ def get_subscribed_emails(table):
     subscribers = [f"{line[EMAIL]}{separator}{line[NAME]}" for line in table if line[SUBSCRIBED] == "1"]
 
     return subscribers
+
+    # your code
+
+
+# functions supports data analyser
+# --------------------------------
+
+
+def get_name_by_id(id):
+    """
+    Reads the table with the help of the data_manager module.
+    Returns the name (str) of the customer with the given id (str) on None om case of non-existing id.
+
+    Args:
+        id (str): the id of the customer
+
+    Returns:
+        str: the name of the customer
+    """
+
+    # your code
+
+
+
+def get_name_by_id_from_table(table, id):
+    """
+    Returns the name (str) of the customer with the given id (str) on None om case of non-existing id.
+
+    Args:
+        table (list of lists): the customer table
+        id (str): the id of the customer
+
+    Returns:
+        str: the name of the customer
+    """
+
+    # your code

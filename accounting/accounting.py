@@ -79,6 +79,9 @@ def start_module():
             #raise KeyError("There is no such option.")
             continue
 
+    # you code
+
+
 def show_table(table):
     """
     Display a table
@@ -92,6 +95,8 @@ def show_table(table):
     common.clear()
     list_labels = ["id", "month", "day", "year", "type", "amount"]
     ui.print_table(items, list_labels)
+
+    # your code
 
 
 def add(table):
@@ -127,6 +132,9 @@ def add(table):
     label = ("The data have been added to the table under this id:")
     result = id_ 
     ui.print_result(result, label)
+
+    # your code
+
     return table
 
 
@@ -152,6 +160,10 @@ def remove(table, id_):
             ui.print_result(result, label)
             return table
     ui.print_error_message("There is no such item in the list.")
+
+    # your code
+
+    return table
 
 
 def update(table, id_):
@@ -191,6 +203,10 @@ def update(table, id_):
             return table
     ui.print_error_message("There is no such item in the list.")
 
+    # your code
+
+    return table
+
 
 # special functions:
 # ------------------
@@ -225,6 +241,8 @@ def which_year_max(table):
     ui.print_result(result, label)
     return result
 
+    # your code
+
 
 def avg_amount(table, year):
     """
@@ -255,3 +273,5 @@ def avg_amount(table, year):
     label = (f"The average profit (per item) in the year {year} is:")
     ui.print_result(result, label)
     return result
+
+    # your code
