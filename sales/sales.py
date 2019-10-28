@@ -47,7 +47,8 @@ def start_module():
                     "Get sold items between dates",
                     "Get title by ID",
                     "Get title by ID from table",
-                    "Get item ID sold last"]
+                    "Get item ID sold last",
+                    "Get item ID sold last from table"]
     exit_message = "Exit to main menu"
     common.clear()
 
@@ -129,6 +130,8 @@ def start_module():
                 return None
         elif option == "9":
             get_item_id_sold_last()
+        elif option == "10":
+            get_item_id_sold_last_from_table(table)
         elif option == "0":
             common.clear()
             break
@@ -437,7 +440,11 @@ def get_item_id_sold_last_from_table(table):
     Returns:
         str: the _id_ of the item that was sold most recently.
     """
-
+    all_id = []
+    for data in table:
+        all_id.append(data[ID])
+    _id_ = all_id[0]
+    return _id_
     # your code
 
 
