@@ -78,13 +78,7 @@ def start_module():
             common.clear()
             raise KeyError("There is no such option.")
 
-    Returns:
-        None
-    """
-
-    # your code
-
-
+    
 def show_table(table):
     """
     Display a table
@@ -186,7 +180,7 @@ def get_available_items(table, year):
         table (list): data table to work on
         year (number)
 def get_available_items(table):
-    """
+    
     Question: Which items have not exceeded their durability yet?
 
     Args:
