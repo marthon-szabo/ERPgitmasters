@@ -46,7 +46,8 @@ def start_module():
                     "Get ID of lowest priced item",
                     "Get sold items between dates",
                     "Get title by ID",
-                    "Get title by ID from table"]
+                    "Get title by ID from table",
+                    "Get item ID sold last"]
     exit_message = "Exit to main menu"
     common.clear()
 
@@ -126,6 +127,8 @@ def start_module():
                 get_title_by_id_from_table(id_, table)
             else:
                 return None
+        elif option == "9":
+            get_item_id_sold_last()
         elif option == "0":
             common.clear()
             break
@@ -407,8 +410,6 @@ def get_title_by_id_from_table(table, id):
         if id == data[ID]:
             return data[TITLE]
 
-    # your code
-
 
 def get_item_id_sold_last():
     """
@@ -418,8 +419,12 @@ def get_item_id_sold_last():
     Returns:
         str: the _id_ of the item that was sold most recently.
     """
-
-    # your code
+    table = data_manager.get_table_from_file(FILE_LOCATION)
+    all_id = []
+    for data in table:
+        all_id.append(data[ID])
+    _id_ = all_id[0]
+    return _id_
 
 
 def get_item_id_sold_last_from_table(table):
