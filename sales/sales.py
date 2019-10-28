@@ -46,17 +46,12 @@ def start_module():
                     "Update a game sale's data",
                     "Get Sale ID of lowest priced item",
                     "Get sold items between dates",
-                    "Get title by Sale ID",
-                    "Get title by Sale ID from table",
-                    "Get item Sale ID sold last",
-                    "Get item Sale ID sold last from table",
+                    "Get title by sale ID",
+                    "Get item sale ID sold last",
                     "Get item title sold last from table",
                     "Get the sum of prices",
-                    "Get the sum of prices from table",
                     "Get customer ID by sale ID",
-                    "Get customer ID by sale ID from table",
-                    "Get all customer IDs",
-                    "Get all customer IDs from the table"]
+                    "Get all customer IDs"]
     exit_message = "Exit to main menu"
     common.clear()
 
@@ -123,53 +118,33 @@ def start_module():
                 line[DAY] = str(line[DAY])
             ui.print_table(result, ["SALE_ID", "Title", "Price", "Month", "Day", "Year"])
         elif option == "7":
-            title_id = ui.get_inputs(["Enter an SALE_ID: "], "")
-            id_ = title_id[0]
-            if id_ in existing_id:
-                get_title_by_id(id_)
-            else:
-                return None
-        elif option == "8":
-            title_id = ui.get_inputs(["Enter an SALE_ID: "], "")
+            title_id = ui.get_inputs(["Enter a sale ID: "], "")
             id_ = title_id[0]
             if id_ in existing_id:
                 get_title_by_id_from_table(id_, table)
             else:
                 return None
-        elif option == "9":
-            get_item_id_sold_last()
-        elif option == "10":
+        elif option == "8":
             get_item_id_sold_last_from_table(table)
-        elif option == "11":
+        elif option == "9":
             get_item_title_sold_last_from_table(table)
-        elif option == "12":
-            item_ids = [data[0] for data in table]
-            get_the_sum_of_prices(item_ids)
-        elif option == "13":
+        elif option == "10":
             item_ids = [data[0] for data in table]
             get_the_sum_of_prices_from_table(table, item_ids)
-        elif option == "14":
-            get_sale_id = ui.get_inputs(["Enter an SALE_ID: "], "")
-            sale_id = get_sale_id[0]
-            if sale_id in existing_id:
-                get_customer_id_by_sale_id(sale_id)
-        elif option == "15":
-            get_sale_id = ui.get_inputs(["Enter an SALE_ID: "], "")
+        elif option == "11":
+            get_sale_id = ui.get_inputs(["Enter a sale ID: "], "")
             sale_id = get_sale_id[0]
             if sale_id in existing_id:
                 get_customer_id_by_sale_id_from_table(table, sale_id)
             else:
                 return None
-        elif option == "16":
-            get_all_customer_ids()
-        elif option == "17":
+        elif option == "12":
             get_all_customer_ids_from_table(table)
         elif option == "0":
             common.clear()
             break
         else:
             ui.print_error_message("There is no such option.")
-    # your code
 
 
 def show_table(table):
@@ -186,7 +161,6 @@ def show_table(table):
     title_list = ["SALE_ID", "Title", "Price", "Month", "Day", "Year"]
     ui.print_table(table, title_list)
 
-    # your code
 
 
 def add(table):
@@ -228,9 +202,6 @@ def add(table):
         except ValueError:
             ui.print_error_message("Invalid input: price, year, month and day must all be numbers and have valid values.")
             return table
-    # your code
-
-    return table
 
 
 def remove(table, id_):
@@ -252,9 +223,6 @@ def remove(table, id_):
             common.clear()
             ui.print_result(f"SALE_ID {id_} no longer in database", "Game sale deletion succeeded.")
             return table
-    # your code
-
-    return table
 
 
 def update(table, id_):
