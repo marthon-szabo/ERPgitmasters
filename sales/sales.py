@@ -48,7 +48,9 @@ def start_module():
                     "Get title by ID",
                     "Get title by ID from table",
                     "Get item ID sold last",
-                    "Get item ID sold last from table"]
+                    "Get item ID sold last from table",
+                    "Get item title sold last from table",
+                    "Get the sum of prices from table"]
     exit_message = "Exit to main menu"
     common.clear()
 
@@ -132,6 +134,14 @@ def start_module():
             get_item_id_sold_last()
         elif option == "10":
             get_item_id_sold_last_from_table(table)
+        elif option == "11":
+            get_item_title_sold_last_from_table(table)
+        elif option == "12":
+            item_ids = [data[0] for data in table]
+            get_the_sum_of_prices(item_ids)
+        elif option == "13":
+            item_ids = [data[0] for data in table]
+            get_the_sum_of_prices_from_table(table, item_ids)
         elif option == "0":
             common.clear()
             break
@@ -458,7 +468,11 @@ def get_item_title_sold_last_from_table(table):
     Returns:
         str: the _title_ of the item that was sold most recently.
     """
-
+    all_titles = []
+    for data in table:
+        all_titles.append(data[TITLE])
+    _title_ = all_titles[-1]
+    return _title_
     # your code
 
 
@@ -473,7 +487,13 @@ def get_the_sum_of_prices(item_ids):
     Returns:
         number: the sum of the items' prices
     """
+    table = data_manager.get_table_from_file(FILE_LOCATION)
+    item_prices = []
+    for data in table:
+        item_prices.append(int(data[2]))
 
+    ids_and_prices = dict(zip(item_ids, item_prices))
+    return sum(ids_and_prices.values())
     # your code
 
 
@@ -488,7 +508,12 @@ def get_the_sum_of_prices_from_table(table, item_ids):
     Returns:
         number: the sum of the items' prices
     """
+    item_prices = []
+    for data in table:
+        item_prices.append(int(data[2]))
 
+    ids_and_prices = dict(zip(item_ids, item_prices))
+    return sum(ids_and_prices.values())
     # your code
 
 
