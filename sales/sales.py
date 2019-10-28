@@ -51,7 +51,12 @@ def start_module():
                     "Get item Sale ID sold last",
                     "Get item Sale ID sold last from table",
                     "Get item title sold last from table",
-                    "Get the sum of prices from table"]
+                    "Get the sum of prices",
+                    "Get the sum of prices from table",
+                    "Get customer ID by sale ID",
+                    "Get customer ID by sale ID from table",
+                    "Get all customer IDs",
+                    "Get all customer IDs from the table"]
     exit_message = "Exit to main menu"
     common.clear()
 
@@ -145,11 +150,20 @@ def start_module():
             get_the_sum_of_prices_from_table(table, item_ids)
         elif option == "14":
             get_sale_id = ui.get_inputs(["Enter an SALE_ID: "], "")
-            sale_id = title_id[0]
+            sale_id = get_sale_id[0]
             if sale_id in existing_id:
                 get_customer_id_by_sale_id(sale_id)
+        elif option == "15":
+            get_sale_id = ui.get_inputs(["Enter an SALE_ID: "], "")
+            sale_id = get_sale_id[0]
+            if sale_id in existing_id:
+                get_customer_id_by_sale_id_from_table(table, sale_id)
             else:
                 return None
+        elif option == "16":
+            get_all_customer_ids()
+        elif option == "17":
+            get_all_customer_ids_from_table(table)
         elif option == "0":
             common.clear()
             break
@@ -554,6 +568,9 @@ def get_customer_id_by_sale_id_from_table(table, sale_id):
     Returns:
         str: customer_id that belongs to the given sale id
     """
+    for data in table:
+        if sale_id == data[SALE_ID]:
+            return data[CUSTOMER_ID]
 
     # your code
 
@@ -565,7 +582,11 @@ def get_all_customer_ids():
     Returns:
          set of str: set of customer_ids that are present in the table
     """
-
+    table = data_manager.get_table_from_file(FILE_LOCATION)
+    all_customer_ids = set()
+    for data in table:
+        all_customer_ids.add(data[CUSTOMER_ID])
+    return all_customer_ids
     # your code
 
 
@@ -578,7 +599,10 @@ def get_all_customer_ids_from_table(table):
     Returns:
          set of str: set of customer_ids that are present in the table
     """
-
+    all_customer_ids = set()
+    for data in table:
+        all_customer_ids.add(data[CUSTOMER_ID])
+    return all_customer_ids
     # your code
 
 
