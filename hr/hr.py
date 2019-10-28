@@ -163,7 +163,7 @@ def update(table, id_):
     elif user_input == "date of birth":
         for elem in table:
             if id_ in elem[0]:
-                user_text_new = input(f"Previous Date of Birth: {elem[2]}.\n\nNew Date of Birth: ")
+                user_text_new = ui.get_inputs()(f"Previous Date of Birth: {elem[2]}.\n\nNew Date of Birth: ")
                 elem[2] = user_text_new 
     data_manager.write_table_to_file("hr/persons.csv", table)  
     return table
@@ -222,18 +222,20 @@ def get_persons_closest_to_average(table):
         list_for_key.append(ages_key)
         list_for_value.append(ages_value)
     names_with_ages = {key: value for (key, value) in zip(list_for_key, list_for_value)}
-    
+
     sum_of_ages = 0
     for value in names_with_ages.values():
         sum_of_ages += value
     average = sum_of_ages // len(names_with_ages.values())
-    counter = 0
-    closest_to_average = {key: average - value for key, value in zip(list_for_key, list_for_value)}
+    closest_to_average = {key: value for key, value in zip(list_for_key, list_for_value)}
     for key, value in closest_to_average.items():
         if value < 0:
             closest_to_average[key] = value * (-1)
+    for i in range(len(closest_to_average)):
+        for j in range(len(closest_to_average) - i - 1):
+            if 
          
-    closest_to_average_list = [[key, value] for key, value in closest_to_average.items()]
+    """closest_to_average_list = [[key, value] for key, value in closest_to_average.items()]
     
     unsorted_list = len(closest_to_average_list)
     for i in range(unsorted_list):
@@ -250,7 +252,7 @@ def get_persons_closest_to_average(table):
         #    if elem[]
     final = list(set(names))
     
-    return final
+    return final"""
 
 
 
