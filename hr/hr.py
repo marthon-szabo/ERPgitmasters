@@ -235,48 +235,50 @@ def get_persons_closest_to_average(table):
         list: list of strings (name or names if there are two more with the same value)
     """
     
-    
+    year = 2019
     people = table
     list_for_key = []
     list_for_value = []    
     for elem in people:
-        #for i in range(0, len(elem)):
         ages_key = elem[1]
-        ages_value = elem[2]
+        ages_value = year - int(elem[2])
         list_for_key.append(ages_key)
         list_for_value.append(ages_value)
     names_with_ages = {key: value for (key, value) in zip(list_for_key, list_for_value)}
-
+    for key, value in names_with_ages.items():
+        if int(value) < 0:
+            names_with_ages[key] = int(value) * (-1)
+    print(names_with_ages)
     sum_of_ages = 0
     for value in names_with_ages.values():
-        sum_of_ages += value
+        sum_of_ages += int(value)
     average = sum_of_ages // len(names_with_ages.values())
-    closest_to_average = {key: value for key, value in zip(list_for_key, list_for_value)}
-    for key, value in closest_to_average.items():
-        if value < 0:
-            closest_to_average[key] = value * (-1)
-    for i in range(len(closest_to_average)):
-        for j in range(len(closest_to_average) - i - 1):
-            if 
-         
-    """closest_to_average_list = [[key, value] for key, value in closest_to_average.items()]
     
-    unsorted_list = len(closest_to_average_list)
+    names_with_ages_list = [[key, value] for key, value in names_with_ages.items()]
+    
+    unsorted_list = len(names_with_ages_list)
     for i in range(unsorted_list):
         for j in range(0, unsorted_list-i-1):
-            if closest_to_average_list[j][1] > closest_to_average_list[j+1][1]:
-                closest_to_average_list[j], closest_to_average_list[j+1] = closest_to_average_list[j+1], closest_to_average_list[j]
+            previous_element = names_with_ages_list[j][1] - average
+            if previous_element < 0:
+                previous_element = previous_element * -1
+            follower_element = names_with_ages_list[j+1][1] - average
+            if follower_element < 0:
+                follower_element = follower_element * -1
+
+            if previous_element > follower_element:
+               previous_element, follower_element = follower_element, previous_element
     
     names = []
-    names.append(closest_to_average_list[0][0])
-    for i in range(0, len(closest_to_average_list)):
-        if closest_to_average_list[i][1] == closest_to_average_list[0][1]:
-            names.append(closest_to_average_list[i][0])
+    names.append(names_with_ages_list[0][0])
+    for i in range(0, len(names_with_ages_list)):
+        if names_with_ages_list[i][1] == names_with_ages_list[0][1]:
+            names.append(names_with_ages_list[i][0])
         #for i in range(0, len(elem)):
         #    if elem[]
     final = list(set(names))
-    
-    return final"""
+
+    return final
 
 
 
