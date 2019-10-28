@@ -44,13 +44,15 @@ def start_module():
                     "Remove a game sale",
                     "Update a game sale's data",
                     "Get ID of lowest priced item",
-                    "Get sold items between dates"]
+                    "Get sold items between dates",
+                    "Get title by ID"]
     exit_message = "Exit to main menu"
     common.clear()
 
     while True:
         table = data_manager.get_table_from_file(FILE_LOCATION)
         ui.print_menu(title, list_options, exit_message)
+        existing_id = common.id_finder(table)
         inputs = ui.get_inputs(["Please enter a number: "], "")
         option = inputs[0]
 
@@ -109,6 +111,13 @@ def start_module():
                 line[MONTH] = str(line[MONTH])
                 line[DAY] = str(line[DAY])
             ui.print_table(result, ["ID", "Title", "Price", "Month", "Day", "Year"])
+        elif option == "7":
+            title_id = ui.get_inputs(["Enter an ID: "], "")
+            id_ = title_id[0]
+            if id_ in existing_id:
+                get_title_by_id(id_)
+            else:
+                return None
         elif option == "0":
             common.clear()
             break
@@ -368,7 +377,10 @@ def get_title_by_id(id):
     Returns:
         str: the title of the item
     """
-
+    table = data_manager.get_table_from_file(FILE_LOCATION)
+    for data in table:
+        if id == data[ID]:
+            return data[TITLE]
     # your code
 
 
