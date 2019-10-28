@@ -24,10 +24,27 @@ def start_module():
     Returns:
         None
     """
+    common.clear()
+    title = "DATA ANALYSER"
+    list_options = ["Last buyer's name",
+                    "Last buyer's ID"]
+    exit_message = "Exit to main menu"
+    while True:
+        ui.print_menu(title, list_options, exit_message)
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
 
-    # your code
+        if option == "1":
+            common.clear()
+            get_the_last_buyer_name()
 
-    pass
+        elif option == "2":
+            common.clear()
+            get_the_last_buyer_id()
+
+        elif option == "0":
+            common.clear()
+            break
 
 
 def get_the_last_buyer_name():
@@ -37,8 +54,7 @@ def get_the_last_buyer_name():
     Returns:
         str: Customer name of the last buyer
     """
-
-    # your code
+    pass
 
 
 def get_the_last_buyer_id():
@@ -48,8 +64,9 @@ def get_the_last_buyer_id():
     Returns:
         str: Customer id of the last buyer
     """
-
-    # your code
+    sale_id = sales.get_item_id_sold_last()
+    last_buyer_id = sales.get_customer_id_by_sale_id(sale_id)
+    return last_buyer_id
 
 
 def get_the_buyer_name_spent_most_and_the_money_spent():
