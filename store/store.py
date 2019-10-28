@@ -87,6 +87,7 @@ def start_module():
             break
         else:
             ui.print_error_message("There is no such option.")
+    # your code
 
 
 def show_table(table):
@@ -102,6 +103,7 @@ def show_table(table):
 
     title_list = ["ID", "Title", "Manufacturer", "Price", "Number in stock"]
     ui.print_table(table, title_list)
+    # your code
 
 
 def add(table):
@@ -132,6 +134,9 @@ def add(table):
         except ValueError:
             ui.print_error_message("Invalid input: price and stock must be a number.")
             return table
+    # your code
+
+    return table
 
 
 def remove(table, id_):
@@ -153,6 +158,8 @@ def remove(table, id_):
             data_manager.write_table_to_file(FILE_LOCATION, table)
             ui.print_result(f"ID {id_} no longer in database", "Game deletion succeeded.")
             return table
+
+    return table
 
 
 def update(table, id_):
@@ -185,6 +192,9 @@ def update(table, id_):
         except ValueError:
             ui.print_error_message("Invalid input: price and stock must be a number.")
             return table
+    # your code
+
+    return table
 
 
 # special functions:
@@ -231,4 +241,5 @@ def get_average_by_manufacturer(table, manufacturer):
             number_of_titles += 1
 
     return total_stock_amount / number_of_titles
+
     # your code

@@ -66,3 +66,9 @@ def get_avrg(your_list):
     for i in your_list:
         x += i
     return x/n
+
+    generated = ''
+
+    # your code
+
+    return generated

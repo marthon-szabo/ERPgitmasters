@@ -10,12 +10,17 @@ Data table structure:
 # User interface module
 import ui
 
+
+# everything you'll need is imported:
+# User interface module
+import ui
 # data manager module
 import data_manager
 # common module
 import common
 
 items = data_manager.get_table_from_file("hr/persons.csv")
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -59,6 +64,10 @@ def start_module():
             #raise KeyError("There is no such option.")
             continue
         
+
+    # your code
+
+
 def show_table(table):
     """
     Display a table
@@ -79,6 +88,8 @@ def show_table(table):
     
         
 
+
+    # your code
 
 
 def add(table):
@@ -101,6 +112,9 @@ def add(table):
     data_manager.write_table_to_file("hr/persons.csv", table)
     result = id_ 
     #ui.print_result(result, label)  
+
+    # your code
+
     return table
 
 
@@ -139,6 +153,10 @@ def remove(table, id_):
     #return table
     
 
+    # your code
+
+    return table
+
 
 def update(table, id_):
     """
@@ -166,6 +184,9 @@ def update(table, id_):
                 user_text_new = ui.get_inputs()(f"Previous Date of Birth: {elem[2]}.\n\nNew Date of Birth: ")
                 elem[2] = user_text_new 
     data_manager.write_table_to_file("hr/persons.csv", table)  
+
+    # your code
+
     return table
 
 
@@ -199,6 +220,9 @@ def get_oldest_person(table):
    
     return names
     ######
+
+    # your code
+
 
 def get_persons_closest_to_average(table):
     """
@@ -260,3 +284,5 @@ def get_persons_closest_to_average(table):
     
         
   
+
+    # your code

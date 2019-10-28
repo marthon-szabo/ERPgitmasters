@@ -100,6 +100,7 @@ def print_result(result, label):
 
     Args:
         result: result of the special function (string, number, list or dict)
+        result: result of the special function (string, list or dict)
         label (str): label of the result
 
     Returns:
@@ -120,6 +121,7 @@ def print_result(result, label):
     else:
         print(label)
         print(result)
+    # your code
 
 
 def print_menu(title, list_options, exit_message):
@@ -149,6 +151,8 @@ def print_menu(title, list_options, exit_message):
         print("{}. {}".format(i+1, list_options[i]))
     print("0. {}".format(exit_message))
 
+    # your code
+
 
 def get_inputs(list_labels, title):
     """
@@ -174,6 +178,8 @@ def get_inputs(list_labels, title):
     for i in range(len(list_labels)):
         inputs.append(input(list_labels[i]))
 
+    # your code
+
     return inputs
 
 
@@ -189,3 +195,4 @@ def print_error_message(message):
     """
 
     print(f"Error: {message}")
+    # your code
