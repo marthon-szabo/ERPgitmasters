@@ -45,7 +45,8 @@ def start_module():
                     "Update a game sale's data",
                     "Get ID of lowest priced item",
                     "Get sold items between dates",
-                    "Get title by ID"]
+                    "Get title by ID",
+                    "Get title by ID from table"]
     exit_message = "Exit to main menu"
     common.clear()
 
@@ -116,6 +117,13 @@ def start_module():
             id_ = title_id[0]
             if id_ in existing_id:
                 get_title_by_id(id_)
+            else:
+                return None
+        elif option == "8":
+            title_id = ui.get_inputs(["Enter an ID: "], "")
+            id_ = title_id[0]
+            if id_ in existing_id:
+                get_title_by_id_from_table(id_, table)
             else:
                 return None
         elif option == "0":
@@ -381,7 +389,6 @@ def get_title_by_id(id):
     for data in table:
         if id == data[ID]:
             return data[TITLE]
-    # your code
 
 
 def get_title_by_id_from_table(table, id):
@@ -396,6 +403,9 @@ def get_title_by_id_from_table(table, id):
     Returns:
         str: the title of the item
     """
+    for data in table:
+        if id == data[ID]:
+            return data[TITLE]
 
     # your code
 
