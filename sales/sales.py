@@ -490,8 +490,11 @@ def get_the_sum_of_prices_from_table(table, item_ids):
         item_prices.append(int(data[2]))
 
     ids_and_prices = dict(zip(item_ids, item_prices))
-    return sum(ids_and_prices.values())
-    # your code
+
+    sum_value = 0
+    for value in ids_and_prices.values():
+        sum_value += value
+    return sum_value
 
 
 def get_customer_id_by_sale_id(sale_id):
