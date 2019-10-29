@@ -158,7 +158,7 @@ def show_table(table):
         None
     """
     common.clear()
-    title_list = ["SALE_ID", "Title", "Price", "Month", "Day", "Year"]
+    title_list = ["SALE_ID", "Title", "Price", "Month", "Day", "Year", "Customer_ID"]
     ui.print_table(table, title_list)
 
 

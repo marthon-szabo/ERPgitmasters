@@ -6,9 +6,6 @@ Avoid using the database (ie. .csv files) of other modules directly.
 Use the functions of the modules instead.
 """
 
-# todo: importing everything you need
-
-# importing everything you need
 import ui
 import common
 from sales import sales
@@ -130,4 +127,4 @@ def get_the_most_frequent_buyers_ids(num = 1):
             The first one bought the most frequent. eg.: [(aH34Jq#&, 8), (bH34Jq#&, 3)]
     """
 
-    print("get_the_most_frequent_buyers_ids")# your code
+    print("get_the_most_frequent_buyers_ids")
