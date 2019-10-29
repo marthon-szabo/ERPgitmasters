@@ -58,8 +58,7 @@ def get_the_last_buyer_name():
     Returns:
         str: Customer name of the last buyer
     """
-
-    print("get_the_last_buyer_name")
+    ui.print_result("Just for run", "No valid function")
 
 
 def get_the_last_buyer_id():
@@ -84,7 +83,7 @@ def get_the_buyer_name_spent_most_and_the_money_spent():
         tuple: Tuple of customer name and the sum the customer spent eg.: ('Daniele Coach', 42)
     """
 
-    print("get_the_buyer_name_spent_most_and_the_money_spent")
+    ui.print_result("Just for run", "No valid function")
 
 
 def get_the_buyer_id_spent_most_and_the_money_spent():
@@ -95,7 +94,7 @@ def get_the_buyer_id_spent_most_and_the_money_spent():
         tuple: Tuple of customer id and the sum the customer spent eg.: (aH34Jq#&, 42)
     """
 
-    print("get_the_buyer_id_spent_most_and_the_money_spent")
+    ui.print_result("Just for run", "No valid function")
 
 
 def get_the_most_frequent_buyers_names(num = 1):
@@ -111,7 +110,7 @@ def get_the_most_frequent_buyers_names(num = 1):
             The first one bought the most frequent. eg.: [('Genoveva Dingess', 8), ('Missy Stoney', 3)]
     """
 
-    print("get_the_most_frequent_buyers_names")
+    ui.print_result("Just for run", "No valid function")
 
 
 def get_the_most_frequent_buyers_ids(num = 1):
@@ -127,4 +126,4 @@ def get_the_most_frequent_buyers_ids(num = 1):
             The first one bought the most frequent. eg.: [(aH34Jq#&, 8), (bH34Jq#&, 3)]
     """
 
-    print("get_the_most_frequent_buyers_ids")
+    ui.print_result("Just for run", "No valid function")

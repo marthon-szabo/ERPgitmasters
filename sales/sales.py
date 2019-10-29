@@ -484,7 +484,6 @@ def get_the_sum_of_prices(item_ids):
 
     ids_and_prices = dict(zip(item_ids, item_prices))
     return sum(ids_and_prices.values())
-    # your code
 
 
 def get_the_sum_of_prices_from_table(table, item_ids):
