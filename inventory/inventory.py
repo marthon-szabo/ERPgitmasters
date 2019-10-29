@@ -179,8 +179,6 @@ def get_available_items(table, year):
     Args:
         table (list): data table to work on
         year (number)
-def get_available_items(table):
-    
     Question: Which items have not exceeded their durability yet?
 
     Args:

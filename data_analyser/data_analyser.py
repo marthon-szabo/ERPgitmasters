@@ -24,11 +24,35 @@ def start_module():
     Returns:
         None
     """
-
-    # your code
-
-    pass
-
+    common.clear()
+    options = ["Get the last buyer name",
+                "Get the last buyer id",
+                "Get the buyer name spent most and the money spent",
+                "Get the buyer id spent most and the money spent",
+                "Get the most frequent buyers names",
+                "Get the most frequent buyers ids"]
+    while True:
+        ui.print_menu("Data analyser menu", options, "Back to main menu")
+        inputs = ui.get_inputs(["Please enter a number: "], "")
+        option = inputs[0]
+        if option == "1":
+            get_the_last_buyer_name()
+        elif option == "2":
+            get_the_last_buyer_id()
+        elif option == "3":
+            get_the_buyer_name_spent_most_and_the_money_spent()
+        elif option == "4":
+            get_the_buyer_id_spent_most_and_the_money_spent()
+        elif option == "5":
+            get_the_most_frequent_buyers_names(num = 1)
+        elif option == "6":
+            get_the_most_frequent_buyers_ids(num = 1)
+        elif option == "0":
+            common.clear()
+            break
+        else:
+            ui.print_error_message("There is no such option.")
+            continue
 
 def get_the_last_buyer_name():
     """
@@ -38,7 +62,7 @@ def get_the_last_buyer_name():
         str: Customer name of the last buyer
     """
 
-    # your code
+    print("get_the_last_buyer_name")
 
 
 def get_the_last_buyer_id():
@@ -48,8 +72,9 @@ def get_the_last_buyer_id():
     Returns:
         str: Customer id of the last buyer
     """
-
-    # your code
+    sale_id = sales.get_item_id_sold_last()
+    last_buyer_id = sales.get_customer_id_by_sale_id(sale_id)
+    return last_buyer_id
 
 
 def get_the_buyer_name_spent_most_and_the_money_spent():
@@ -60,7 +85,7 @@ def get_the_buyer_name_spent_most_and_the_money_spent():
         tuple: Tuple of customer name and the sum the customer spent eg.: ('Daniele Coach', 42)
     """
 
-    # your code
+    print("get_the_buyer_name_spent_most_and_the_money_spent")
 
 
 def get_the_buyer_id_spent_most_and_the_money_spent():
@@ -71,10 +96,10 @@ def get_the_buyer_id_spent_most_and_the_money_spent():
         tuple: Tuple of customer id and the sum the customer spent eg.: (aH34Jq#&, 42)
     """
 
-    # your code
+    print("get_the_buyer_id_spent_most_and_the_money_spent")
 
 
-def get_the_most_frequent_buyers_names(num=1):
+def get_the_most_frequent_buyers_names(num = 1):
     """
     Returns 'num' number of buyers (more precisely: the customer's name) who bought most frequently in an
     ordered list of tuples of customer names and the number of their sales.
@@ -87,10 +112,10 @@ def get_the_most_frequent_buyers_names(num=1):
             The first one bought the most frequent. eg.: [('Genoveva Dingess', 8), ('Missy Stoney', 3)]
     """
 
-    # your code
+    print("get_the_most_frequent_buyers_names")
 
 
-def get_the_most_frequent_buyers_ids(num=1):
+def get_the_most_frequent_buyers_ids(num = 1):
     """
     Returns 'num' number of buyers (more precisely: the customer ids of them) who bought more frequent in an
     ordered list of tuples of customer id and the number their sales.
@@ -103,4 +128,4 @@ def get_the_most_frequent_buyers_ids(num=1):
             The first one bought the most frequent. eg.: [(aH34Jq#&, 8), (bH34Jq#&, 3)]
     """
 
-    # your code
+    print("get_the_most_frequent_buyers_ids")# your code
