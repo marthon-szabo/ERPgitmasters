@@ -275,8 +275,7 @@ def get_persons_closest_to_average(table):
         reference_value = average - names_with_ages_list[0][1]
         if absolute_value == reference_value:
             names.append(names_with_ages_list[i][0])
-        #for i in range(0, len(elem)):
-        #    if elem[]
+    
     final = list(set(names))
     return final
 
