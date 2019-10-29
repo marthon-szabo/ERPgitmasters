@@ -39,7 +39,9 @@ def start_module():
                     "Remove a customer",
                     "Update a customer's data",
                     "Get ID of the customer with the longest name",
-                    "Get e-mail subscriber customers"]
+                    "Get e-mail subscriber customers",
+                    "Get name by ID",
+                    "Get name by ID from table"]
     exit_message = "Exit to main menu"
 
     while True:
@@ -79,14 +81,20 @@ def start_module():
                 subscribers_to_print[email] = name
             ui.print_result("", "The following people subsribed to the newsletter with the following e-mail addresses")
             ui.print_result(subscribers_to_print, ["Name", "E-mail address"])
+        # elif options == "7":
+        #     id_to_get = ui.get_inputs(["Enter ID to get the name: "], "")
+        #     result = get_name_by_id(id_to_get)
+        #     ui.print_result(result, "The name of the customer.")
+        # elif option == "8":
+        #     id_to_get = ui.get_inputs(["Enter ID to get the name: "], "")
+        #     result = get_name_by_id_from_table(table, id_to_get)
+        #     ui.print_result(str(result), "The name of the customer.")
 
         elif option == "0":
             common.clear()
             break
         else:
             ui.print_error_message("There is no such option.")
-
-    # your code
 
 
 def show_table(table):
@@ -102,8 +110,6 @@ def show_table(table):
     common.clear()
     title_list = ["ID", "name", "e-mail", "subscribed"]
     ui.print_table(table, title_list)
-
-    # your code
 
 
 def add(table):
@@ -133,10 +139,6 @@ def add(table):
             ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
             return table
 
-    # your code
-
-    return table
-
 
 def remove(table, id_):
     """
@@ -156,10 +158,6 @@ def remove(table, id_):
             common.clear()
             ui.print_result("ID no longer in database", "Customer deletion succeeded.")
             return table
-
-    # your code
-
-    return table
 
 
 def update(table, id_):
@@ -190,9 +188,6 @@ def update(table, id_):
         else:
             ui.print_error_message("Invalid input: 'subsribed' data must be '0' or '1'.")
             return table
-    # your code
-
-    return table
 
 
 # special functions:
@@ -216,8 +211,6 @@ def get_longest_name_id(table):
         if lines[NAME] == max(longest_names):
             return lines[ID]
 
-    # your code
-
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")
@@ -236,7 +229,6 @@ def get_subscribed_emails(table):
 
     return subscribers
 
-    # your code
 
 
 # functions supports data analyser
@@ -254,9 +246,8 @@ def get_name_by_id(id):
     Returns:
         str: the name of the customer
     """
-
-    # your code
-
+    table = data_manager.get_table_from_file(FILE_LOCATION)
+    return get_name_by_id_from_table(table, id)
 
 
 def get_name_by_id_from_table(table, id):
@@ -271,4 +262,6 @@ def get_name_by_id_from_table(table, id):
         str: the name of the customer
     """
 
-    # your code
+    for line in table:
+        if line[ID] == id:
+            return line[NAME]
