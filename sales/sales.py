@@ -162,7 +162,6 @@ def show_table(table):
     ui.print_table(table, title_list)
 
 
-
 def add(table):
     """
     Asks user for input and adds it into the table.
@@ -566,7 +565,7 @@ def get_all_sales_ids_for_customer_ids():
             all the sales id belong to the given customer_id
     """
     table = data_manager.get_table_from_file(FILE_LOCATION)
-    # your code
+    return get_all_sales_ids_for_customer_ids_from_table(table)
 
 
 def get_all_sales_ids_for_customer_ids_from_table(table):
@@ -581,8 +580,16 @@ def get_all_sales_ids_for_customer_ids_from_table(table):
          (dict of (key, value): (customer_id, (list) sale_ids)) where the sale_ids list contains
          all the sales id belong to the given customer_id
     """
+    sales_by_customer = {}
+    all_customer_ids = get_all_customer_ids_from_table(table)
+    for customer_id in all_customer_ids:
+        sales = []
+        for line in table:
+            if customer_id == line[CUSTOMER_ID]:
+                sales.append(line[SALE_ID])
+        sales_by_customer[customer_id] = sales
 
-    # your code
+    return sales_by_customer
 
 
 def get_num_of_sales_per_customer_ids():
