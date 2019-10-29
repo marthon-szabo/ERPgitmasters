@@ -614,8 +614,14 @@ def get_num_of_sales_per_customer_ids():
      Returns:
          dict of (key, value): (customer_id (str), num_of_sales (number))
     """
-
-    # your code
+    num_of_sales = {}
+    table = data_manager.get_table_from_file(FILE_LOCATION)
+    for item in table:
+        if item[CUSTOMER_ID] in num_of_sales:
+            num_of_sales[item[CUSTOMER_ID]] += 1
+        else:
+            num_of_sales[item[CUSTOMER_ID]] = 1
+    return num_of_sales
 
 
 def get_num_of_sales_per_customer_ids_from_table(table):
