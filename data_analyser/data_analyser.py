@@ -10,6 +10,7 @@ import ui
 import common
 from sales import sales
 from crm import crm
+import data_manager
 
 
 def start_module():
@@ -58,8 +59,16 @@ def get_the_last_buyer_name():
     Returns:
         str: Customer name of the last buyer
     """
-    
-    ui.print_result("Just for run", "No valid function")
+    buyer_name = " "
+    sale_id = sales.get_item_id_sold_last()
+    buyer_id = sales.get_customer_id_by_sale_id(sale_id)
+    table = data_manager.get_table_from_file("crm/customers.csv")
+    for item in table:
+        if buyer_id == item[0]:
+            buyer_name = item[1]
+    label = "The name of the customer made sale last is: "
+    ui.print_result(buyer_name, label)
+    return buyer_name
 
 
 def get_the_last_buyer_id():
