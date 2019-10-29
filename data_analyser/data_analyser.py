@@ -58,6 +58,7 @@ def get_the_last_buyer_name():
     Returns:
         str: Customer name of the last buyer
     """
+    
     ui.print_result("Just for run", "No valid function")
 
 
