@@ -74,6 +74,8 @@ def get_the_last_buyer_id():
     """
     sale_id = sales.get_item_id_sold_last()
     last_buyer_id = sales.get_customer_id_by_sale_id(sale_id)
+    label = "The id of the customer made sale last is: "
+    ui.print_result(last_buyer_id, label)
     return last_buyer_id
 
 
