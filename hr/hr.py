@@ -19,7 +19,7 @@ import data_manager
 # common module
 import common
 
-items = data_manager.get_table_from_file("hr/persons.csv")
+items = data_manager.get_table_from_file("hr/persons_test.csv")
 
 def start_module():
     """
@@ -248,36 +248,36 @@ def get_persons_closest_to_average(table):
     for key, value in names_with_ages.items():
         if int(value) < 0:
             names_with_ages[key] = int(value) * (-1)
-    print(names_with_ages)
+    
     sum_of_ages = 0
     for value in names_with_ages.values():
         sum_of_ages += int(value)
-    average = sum_of_ages // len(names_with_ages.values())
-    
+    average = sum_of_ages / len(names_with_ages.values())
     names_with_ages_list = [[key, value] for key, value in names_with_ages.items()]
     
     unsorted_list = len(names_with_ages_list)
     for i in range(unsorted_list):
         for j in range(0, unsorted_list-i-1):
-            previous_element = names_with_ages_list[j][1] - average
+            previous_element = average - names_with_ages_list[j][1]
             if previous_element < 0:
                 previous_element = previous_element * -1
-            follower_element = names_with_ages_list[j+1][1] - average
+            follower_element = average - names_with_ages_list[j+1][1]
             if follower_element < 0:
-                follower_element = follower_element * -1
+               follower_element = follower_element * -1
 
             if previous_element > follower_element:
-               previous_element, follower_element = follower_element, previous_element
+               names_with_ages_list[j], names_with_ages_list[j + 1] = names_with_ages_list[j + 1], names_with_ages_list[j]
     
     names = []
     names.append(names_with_ages_list[0][0])
-    for i in range(0, len(names_with_ages_list)):
-        if names_with_ages_list[i][1] == names_with_ages_list[0][1]:
+    for i in range(len(names_with_ages_list) - 1):
+        absolute_value = abs(average - names_with_ages_list[i][1]) 
+        reference_value = average - names_with_ages_list[0][1]
+        if absolute_value == reference_value:
             names.append(names_with_ages_list[i][0])
         #for i in range(0, len(elem)):
         #    if elem[]
     final = list(set(names))
-
     return final
 
 
