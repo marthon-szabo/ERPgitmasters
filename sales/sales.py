@@ -392,9 +392,7 @@ def get_title_by_id(id):
         str: the title of the item
     """
     table = data_manager.get_table_from_file(FILE_LOCATION)
-    for data in table:
-        if id == data[SALE_ID]:
-            return data[TITLE]
+    return get_title_by_id_from_table(table, id)
 
 
 def get_title_by_id_from_table(table, id):
@@ -423,11 +421,7 @@ def get_item_id_sold_last():
         str: the _id_ of the item that was sold most recently.
     """
     table = data_manager.get_table_from_file(FILE_LOCATION)
-    all_id = []
-    for data in table:
-        all_id.append(data[SALE_ID])
-    _id_ = all_id[0]
-    return _id_
+    return get_item_id_sold_last_from_table(table)
 
 
 def get_item_id_sold_last_from_table(table):
@@ -478,12 +472,7 @@ def get_the_sum_of_prices(item_ids):
         number: the sum of the items' prices
     """
     table = data_manager.get_table_from_file(FILE_LOCATION)
-    item_prices = []
-    for data in table:
-        item_prices.append(int(data[2]))
-
-    ids_and_prices = dict(zip(item_ids, item_prices))
-    return sum(ids_and_prices.values())
+    return get_the_sum_of_prices_from_table(table, item_ids)
 
 
 def get_the_sum_of_prices_from_table(table, item_ids):
@@ -518,10 +507,7 @@ def get_customer_id_by_sale_id(sale_id):
          str: customer_id that belongs to the given sale id
     """
     table = data_manager.get_table_from_file(FILE_LOCATION)
-    for data in table:
-        if sale_id == data[SALE_ID]:
-            return data[CUSTOMER_ID]
-    # your code
+    return get_customer_id_by_sale_id_from_table(table, sale_id)
 
 
 def get_customer_id_by_sale_id_from_table(table, sale_id):
@@ -539,8 +525,6 @@ def get_customer_id_by_sale_id_from_table(table, sale_id):
         if sale_id == data[SALE_ID]:
             return data[CUSTOMER_ID]
 
-    # your code
-
 
 def get_all_customer_ids():
     """
@@ -550,11 +534,7 @@ def get_all_customer_ids():
          set of str: set of customer_ids that are present in the table
     """
     table = data_manager.get_table_from_file(FILE_LOCATION)
-    all_customer_ids = set()
-    for data in table:
-        all_customer_ids.add(data[CUSTOMER_ID])
-    return all_customer_ids
-    # your code
+    return get_all_customer_ids_from_table(table)
 
 
 def get_all_customer_ids_from_table(table):
@@ -585,7 +565,7 @@ def get_all_sales_ids_for_customer_ids():
          (dict of (key, value): (customer_id, (list) sale_ids)) where the sale_ids list contains
             all the sales id belong to the given customer_id
     """
-
+    table = data_manager.get_table_from_file(FILE_LOCATION)
     # your code
 
 
