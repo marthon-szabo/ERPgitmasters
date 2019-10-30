@@ -485,15 +485,10 @@ def get_the_sum_of_prices_from_table(table, item_ids):
     Returns:
         number: the sum of the items' prices
     """
-    item_prices = []
-    for data in table:
-        item_prices.append(int(data[2]))
-
-    ids_and_prices = dict(zip(item_ids, item_prices))
-
     sum_value = 0
-    for value in ids_and_prices.values():
-        sum_value += value
+    for row in table:
+        if row[SALE_ID] in item_ids:
+            sum_value += int(row[PRICE])
     return sum_value
 
 

@@ -92,8 +92,12 @@ def get_the_buyer_name_spent_most_and_the_money_spent():
     Returns:
         tuple: Tuple of customer name and the sum the customer spent eg.: ('Daniele Coach', 42)
     """
+    ID = 0
+    VALUE = 1
+    buyer_id = get_the_buyer_id_spent_most_and_the_money_spent()
+    name = crm.get_name_by_id(buyer_id[ID])
 
-    ui.print_result("Just for run", "No valid function")
+    return (name, buyer_id[VALUE])
 
 
 def get_the_buyer_id_spent_most_and_the_money_spent():
@@ -104,10 +108,20 @@ def get_the_buyer_id_spent_most_and_the_money_spent():
         tuple: Tuple of customer id and the sum the customer spent eg.: (aH34Jq#&, 42)
     """
 
-    ui.print_result("Just for run", "No valid function")
+    sales_by_id = []
+    all_sales_for_each_id = sales.get_all_sales_ids_for_customer_ids()
+
+    for key, value in all_sales_for_each_id.items():
+        sales_by_id.append((key, sales.get_the_sum_of_prices(value)))
+
+    max_value = max([value for key, value in sales_by_id])
+
+    for key, value in sales_by_id:
+        if value == max_value:
+            return (key, value)
 
 
-def get_the_most_frequent_buyers_names(num = 1):
+def get_the_most_frequent_buyers_names(num=1):
     """
     Returns 'num' number of buyers (more precisely: the customer's name) who bought most frequently in an
     ordered list of tuples of customer names and the number of their sales.
@@ -132,7 +146,7 @@ def get_the_most_frequent_buyers_names(num = 1):
     return result
 
 
-def get_the_most_frequent_buyers_ids(num = 1):
+def get_the_most_frequent_buyers_ids(num=1):
     """
     Returns 'num' number of buyers (more precisely: the customer ids of them) who bought more frequent in an
     ordered list of tuples of customer id and the number their sales.
