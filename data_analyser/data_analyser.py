@@ -119,8 +119,17 @@ def get_the_most_frequent_buyers_names(num = 1):
         list of tuples: Ordered list of tuples of customer names and num of sales
             The first one bought the most frequent. eg.: [('Genoveva Dingess', 8), ('Missy Stoney', 3)]
     """
+    ID = 0
+    NUM_OF_SALE = 1
+    result = []
 
-    ui.print_result("Just for run", "No valid function")
+    ids = get_the_most_frequent_buyers_ids(num)
+    for actual_id_and_name in ids:
+        name = crm.get_name_by_id(actual_id_and_name[ID])
+        result_tuple = (name, actual_id_and_name[NUM_OF_SALE])
+        result.append(result_tuple)
+
+    return result
 
 
 def get_the_most_frequent_buyers_ids(num = 1):
