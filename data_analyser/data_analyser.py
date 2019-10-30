@@ -135,5 +135,9 @@ def get_the_most_frequent_buyers_ids(num = 1):
         list of tuples: Ordered list of tuples of customer ids and num of sales
             The first one bought the most frequent. eg.: [(aH34Jq#&, 8), (bH34Jq#&, 3)]
     """
-
-    ui.print_result("Just for run", "No valid function")
+    buyers_id_and_sales_num = sales.get_num_of_sales_per_customer_ids()
+    result = []
+    for counter, item in enumerate(buyers_id_and_sales_num.items(), start=1):
+        if counter <= num:
+            result.append(item)
+    return result
